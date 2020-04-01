@@ -13,6 +13,7 @@ using SharpDX.Direct3D11;
 using SharpDX.Windows;
 using Template.Properties; // For work with resources of project Assembly.Properties. Then we can access to all inside Resorces.resx.
 using Template.Graphics;
+using System.Drawing;
 
 namespace Template
 {
@@ -126,7 +127,7 @@ namespace Template
             _HUDResources.textFPSBrushIndex = _directX2DGraphics.NewSolidColorBrush(new SharpDX.Mathematics.Interop.RawColor4(1.0f, 1.0f, 0.0f, 1.0f));
             _HUDResources.armorIconIndex = _directX2DGraphics.LoadBitmapFromFile("Resources\\armor.bmp");  // Don't use before Resizing. Bitmaps loaded, but not created.
         }
-
+        private List<MeshObject> meshObjects;
         /// <summary>
         /// Constructor. Initialize all objects.
         /// </summary>
@@ -152,51 +153,51 @@ namespace Template
             Loader loader = new Loader(_directX3DGraphics, _directX2DGraphics, _renderer, _directX2DGraphics.ImagingFactory);
             _samplerStates = new SamplerStates(_directX3DGraphics);
             _textures = new Textures();
+            _textures.Add(loader.LoadTextureFromFile("Resources\\floor.png", false, _samplerStates.Colored));
             _textures.Add(loader.LoadTextureFromFile("Resources\\white.bmp", false, _samplerStates.Colored));
             _renderer.SetWhiteTexture(_textures["white.bmp"]);
-            _textures.Add(loader.LoadTextureFromFile("Resources\\cube.png", true, _samplerStates.Textured));
+            _textures.Add(loader.LoadTextureFromFile("Resources\\stone_wall.png", false, _samplerStates.Textured));
             _materials = loader.LoadMaterials("Resources\\materials.txt", _textures);
             // 6. Load meshes.
             _meshObjects = new MeshObjects();
             _floor = loader.LoadMeshObject("Resources\\floor.txt", _materials);
             _meshObjects.Add(_floor);
             _cube = loader.LoadMeshObject("Resources\\cube.txt", _materials);
-            _cube.MoveBy(0.0f, 2.0f, 0.0f);
+            //_cube.MoveBy(0.0f, 2.0f, 0.0f);
             _meshObjects.Add(_cube);
             // 6. Load HUD resources into DirectX 2D object.
             InitHUDResources();
 
-            loader = null;
-
+            
             _illumination = new Illumination(Vector4.Zero, new Vector4(1.0f, 1.0f, 0.9f, 1.0f), new LightSource[]
             {
                 new LightSource(LightSource.LightType.DirectionalLight,
-                    new Vector4(0.0f, 20.0f, 0.0f, 1.0f),   // Position
-                    new Vector4(0.0f, -1.0f, 0.0f, 1.0f),   // Direction
-                    new Vector4(1.0f, 0.9f, 0.8f, 1.0f),    // Color
+                    new Vector4(-10.0f, 8.0f, 0.0f, 1.0f),   // Position
+                    new Vector4(1.0f, -1.0f, 0.0f, 1.0f),   // Direction
+                    new Vector4(0.8f, 0.8f, 0.8f, 1.0f),    // Color
                     0.0f,                                   // Spot angle
                     1.0f,                                   // Const atten
-                    0.0f,                                   // Linear atten
+                    0.1f,                                   // Linear atten
                     0.0f,                                   // Quadratic atten
                     1),
                 new LightSource(LightSource.LightType.SpotLight,
-                    new Vector4(0.0f, 8.0f, 0.0f, 1.0f),
+                    new Vector4(0.0f, 1.0f, 0.0f, 1.0f),
                     new Vector4(0.0f, -1.0f, 0.0f, 1.0f),
-                    new Vector4(0.7f, 0.7f, 1.0f, 1.0f),
-                    Game3DObject._PI2 / 4.0f,
+                    new Vector4(1.0f, 1.0f, 1.0f, 1.0f),
+                    PositionalObject.HALF_PI / 4.0f,
                     1.0f,
-                    0.02f,
-                    0.005f,
+                    0.05f,
+                    0.01f,
                     1),
                 new LightSource(LightSource.LightType.PointLight,
-                    new Vector4(-4.0f, 2.0f, 0.0f, 1.0f),
+                    new Vector4(0.0f, 1.0f, 0.0f, 1.0f),
                     Vector4.Zero,
-                    new Vector4(1.0f, 1.0f, 1.0f, 1.0f),
-                    0.0f,
+                    new Vector4(-4.0f, 1.0f, 0.0f, 1.0f),
                     1.0f,
-                    0.02f,
+                    1.0f,
+                    0.05f,
                     0.005f,
-                    1),
+                    0),
                 new LightSource(),
                 new LightSource(),
                 new LightSource(),
@@ -205,15 +206,38 @@ namespace Template
             });
 
             // Character and camera. X0Z - ground, 0Y - to up.
-            _character = new Character(new Vector4(0.0f, 0.0f, 0.0f, 1.0f), Game3DObject._PI, 0.0f, 0.0f, 10.0f); //********
+            _character = new Character(new Vector4(0.0f, 0.0f, 0.0f, 1.0f), 10.0f, _inputController); //********
             _camera = new Camera(new Vector4(0.0f, 0.0f, 0.0f, 1.0f));
             _character.AttachMeshObject(_cube);
+            _character.AttachLightSource(_illumination[1]);
             _camera.AttachToObject(_character);
 
             // Input controller and time helper.
             _inputController = new InputController(_renderForm);
             _timeHelper = new TimeHelper();
             _random = new Random();
+            meshObjects = new List<MeshObject>();
+            Vector4 initialPosition = new Vector4(20.5f, 1f, 20.5f, 1);
+            Vector4 position = initialPosition;
+            Bitmap bmp = new Bitmap("Resources\\map.bmp");
+            for (int y = 0; y < bmp.Height; y++)
+            {
+                for (int x = 0; x < bmp.Width; x++)
+                {
+                    position = new Vector4(initialPosition.X - x * 2, 1f, initialPosition.Z - y * 2, 1f);
+                    System.Drawing.Color color = bmp.GetPixel(x, y);
+                    Console.WriteLine(color);
+                    if (color.R == 0 && color.G == 0 && color.B == 0)
+                    {
+                        MeshObject mesh = loader.LoadMeshObject("Resources\\wall.txt", _materials);
+                        mesh.Position = position;
+                        meshObjects.Add(mesh);
+                    }
+                    Console.WriteLine($"x={x} y={y}");
+                    Console.WriteLine(position);           
+                }
+            }
+            loader = null;
         }
 
         /// <summary>Render form activated callback. Hide cursor.</summary>
@@ -255,17 +279,13 @@ namespace Template
             _timeHelper.Update();
             _inputController.UpdateKeyboardState();
             _inputController.UpdateMouseState();
-            if (_inputController.MouseUpdated) // TODO: Move handle input to separate thread.
-            {
-                _character.PitchBy(-_inputController.MouseRelativePositionY * _angularCameraRotationStep); //********
-                _character.YawBy(_inputController.MouseRelativePositionX * _angularCameraRotationStep); //**********
-            }
+
             if (_inputController.KeyboardUpdated)
             {
-                if (_inputController.WPressed) _character.MoveByDirection(_timeHelper.DeltaT * _character.Speed, "forward");
-                if (_inputController.SPressed) _character.MoveByDirection(_timeHelper.DeltaT * _character.Speed, "back");
-                if (_inputController.DPressed) _character.MoveByDirection(_timeHelper.DeltaT * _character.Speed, "right");
-                if (_inputController.APressed) _character.MoveByDirection(_timeHelper.DeltaT * _character.Speed, "left");
+                if (_inputController[SharpDX.DirectInput.Key.W]) _character.MoveByDirection(_timeHelper.DeltaT * _character.Speed, "forward");
+                if (_inputController[SharpDX.DirectInput.Key.S]) _character.MoveByDirection(_timeHelper.DeltaT * _character.Speed, "back");
+                if (_inputController[SharpDX.DirectInput.Key.D]) _character.MoveByDirection(_timeHelper.DeltaT * _character.Speed, "right");
+                if (_inputController[SharpDX.DirectInput.Key.A]) _character.MoveByDirection(_timeHelper.DeltaT * _character.Speed, "left");
                 if (_inputController.Esc) _renderForm.Close();                               // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 // Toggle help by F1.
                 if (_inputController.Func[0]) _displayHelp = !_displayHelp;
@@ -275,6 +295,10 @@ namespace Template
                 // Toggle fullscreen mode by F4, F5.
                 if (_inputController.Func[3]) _directX3DGraphics.IsFullScreen = false;
                 if (_inputController.Func[4]) _directX3DGraphics.IsFullScreen = true;
+                if (_inputController[SharpDX.DirectInput.Key.Down]) _camera.targetDelta += 0.1f;
+                if (_inputController[SharpDX.DirectInput.Key.Up]) _camera.targetDelta -= 0.1f;
+                if (_inputController[SharpDX.DirectInput.Key.Left]) _camera.upDelta += 0.1f;
+                if (_inputController[SharpDX.DirectInput.Key.Right]) _camera.upDelta -= 0.1f;
             }
 
             _viewMatrix = _camera.GetViewMatrix();
@@ -282,10 +306,11 @@ namespace Template
             _renderer.BeginRender();
 
             _illumination.EyePosition = _camera.Position;
-            LightSource light2 = _illumination[2];
-            //if (RandomUtil.NextFloat(_random, 0.0f, 1.0f) < 0.2f) light2.Enabled = (1 ==light2.Enabled ? 0 : 1);
-            light2.Enabled = 0;
-            _illumination[2] = light2;
+            LightSource light1 = _illumination[1];
+            Vector4 pos = _character.Position;
+            pos.Y += 10;
+            light1.Position = pos;
+            _illumination[1] = light1;
             _renderer.UpdateIlluminationProperties(_illumination);
 
             //_renderer.SetPerObjectConstants(_timeHelper.Time, 0);//1);
@@ -301,6 +326,13 @@ namespace Template
             worldMatrix = _floor.GetWorldMatrix();
             _renderer.UpdatePerObjectConstantBuffer(0, worldMatrix, _viewMatrix, _projectionMatrix);
             _floor.Render();
+
+            foreach(var mesh in meshObjects)
+            {
+                worldMatrix = mesh.GetWorldMatrix();
+                _renderer.UpdatePerObjectConstantBuffer(0, worldMatrix, _viewMatrix, _projectionMatrix);
+                mesh.Render();
+            }
 
             RenderHUD();
 

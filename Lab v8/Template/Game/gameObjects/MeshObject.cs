@@ -16,7 +16,7 @@ namespace Template
     /// <summary>
     /// 3D object with mesh.
     /// </summary>
-    class MeshObject : Game3DObject, IDisposable
+    class MeshObject : PositionalObject, IDisposable
     {
         [StructLayout(LayoutKind.Sequential)]
         public struct VertexDataStruct
@@ -27,10 +27,9 @@ namespace Template
             public Vector2 texCoord0;
             public Vector2 texCoord1;
         }
-        private string _name;
-        public string Name { get => _name; }
-        private int _index;
-        public int Index { get => _index; set => _index = value; }
+
+        public string Name { get; }
+        public int Index { get; set; }
 
         private DirectX3DGraphics _directX3DGraphics;
 
@@ -70,11 +69,11 @@ namespace Template
         /// <param name="roll">Initial rotation around 0Z axis (x - to left, y - to up, z - to back), rad.</param>
         /// <param name="vertices">Array of vertex data.</param>
         public MeshObject(string name, DirectX3DGraphics directX3DGraphics, Renderer renderer,
-            Vector4 initialPosition, float yaw, float pitch, float roll,
+            Vector4 initialPosition,
             VertexDataStruct[] vertices, uint[] indexes, Material material) :
-            base(initialPosition, yaw, pitch, roll)
+            base(initialPosition)
         {
-            _name = name;
+            Name = name;
             _directX3DGraphics = directX3DGraphics;
             _renderer = renderer;
             if (null != vertices)

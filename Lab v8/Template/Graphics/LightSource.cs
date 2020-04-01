@@ -8,7 +8,7 @@ using SharpDX;
 
 namespace Template.Graphics
 {
-    class LightSource
+    public class LightSource
     {
         public enum LightType
         {
@@ -54,7 +54,7 @@ namespace Template.Graphics
             _lightSourceProperties.position = new Vector4(0.0f, 0.0f, 0.0f, 1.0f);
             _lightSourceProperties.direction = new Vector4(0.0f, 0.0f, 1.0f, 1.0f);
             _lightSourceProperties.color = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-            _lightSourceProperties.spotAngle = Game3DObject._PI2;
+            _lightSourceProperties.spotAngle = PositionalObject.HALF_PI;
             _lightSourceProperties.constantAttenuation = 1.0f;
             _lightSourceProperties.linearAttenuation = 0.2f;
             _lightSourceProperties.quadraticAttenuation = 0.1f;

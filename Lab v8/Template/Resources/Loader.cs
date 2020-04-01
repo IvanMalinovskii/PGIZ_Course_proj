@@ -224,7 +224,7 @@ namespace Template
             objectFileName = objectFileName.Split('\\')[1];
 
             MeshObject meshObject = new MeshObject(objectFileName, _directX3DGraphics, _renderer,
-                new Vector4(0.0f), 0.0f, 0.0f, 0.0f,
+                new Vector4(0.0f),
                 vertices, indexes, material);
             return meshObject;
         }

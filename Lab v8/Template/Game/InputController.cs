@@ -13,7 +13,7 @@ namespace Template
     /// <summary>
     /// Controller of keyboard and mouse input.
     /// </summary>
-    class InputController : IDisposable
+    public class InputController : IDisposable
     {
         /// <summary>Direct Input instance.</summary>
         private DirectInput _directInput;
@@ -83,30 +83,6 @@ namespace Template
         /// <value>F1 - F10 key press "event".</value>
         public bool[] Func { get => _func; }
 
-        /// <summary>W current pressed state.</summary>
-        private bool _wPressed;
-        /// <summary>W current pressed state.</summary>
-        /// <value>W current pressed state.</value>
-        public bool WPressed { get => _wPressed; }
-
-        /// <summary>A current pressed state.</summary>
-        private bool _aPressed;
-        /// <summary>A current pressed state.</summary>
-        /// <value>A current pressed state.</value>
-        public bool APressed { get => _aPressed; }
-
-        /// <summary>S current pressed state.</summary>
-        private bool _sPressed;
-        /// <summary>S current pressed state.</summary>
-        /// <value>S current pressed state.</value>
-        public bool SPressed { get => _sPressed; }
-
-        /// <summary>D current pressed state.</summary>
-        private bool _dPressed;
-        /// <summary>D current pressed state.</summary>
-        /// <value>D current pressed state.</value>
-        public bool DPressed { get => _dPressed; }
-
         /// <summary>Space previous state.</summary>
         private bool _spacePreviousPressed;
         /// <summary>Space current state.</summary>
@@ -116,7 +92,13 @@ namespace Template
         /// <summary>Space key press "event".</summary>
         /// <value>Space key press "event".</value>
         public bool Space { get => _esc; }
+        private Dictionary<Key, bool> controlButtons;
 
+        public bool this[Key key]
+        {
+            get => controlButtons[key];
+            private set => controlButtons[key] = value;
+        }
         /// <summary>Mouse button press "event" (0 - left, 1 - right, 2 - middle, ... 7).</summary>
         private bool[] _mouseButtons = new bool[8];
         /// <summary>Mouse button press "event" (0 - left, 1 - right, 2 - middle, ... 7).</summary>
@@ -147,6 +129,17 @@ namespace Template
         /// <param name="renderForm">Render form.</param>
         public InputController(RenderForm renderForm)
         {
+            controlButtons = new Dictionary<Key, bool>()
+            {
+                {Key.W, false},
+                {Key.A, false},
+                {Key.S, false},
+                {Key.D, false},
+                {Key.Up, false },
+                {Key.Down, false },
+                {Key.Left, false },
+                {Key.Right, false }
+            };
             _directInput = new DirectInput();
 
             _keyboard = new Keyboard(_directInput);
@@ -230,11 +223,11 @@ namespace Template
                 _func[i] = ProcessKeyPressTriggerByKeyUp(_funcKeys[i], ref _funcPreviousPressed[i], ref _funcCurrentPressed[i]);
 
             // For move keys we need current state.
-            _wPressed = _keyboardState.IsPressed(Key.W);
-            _aPressed = _keyboardState.IsPressed(Key.A);
-            _sPressed = _keyboardState.IsPressed(Key.S);
-            _dPressed = _keyboardState.IsPressed(Key.D);
-
+            for(int index = 0; index < controlButtons.Keys.Count; index++)
+            {
+                Key key = controlButtons.Keys.ElementAt(index);
+                controlButtons[key] = _keyboardState.IsPressed(key) ? true : false;
+            }
             // Space (typicaly jump) - by key down.
             _space = ProcessKeyPressTriggerByKeyDown(Key.Space, ref _spacePreviousPressed, ref _spaceCurrentPressed);
         }
