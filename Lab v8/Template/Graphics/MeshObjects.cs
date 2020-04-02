@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Template.Graphics
 {
-    class MeshObjects : IDisposable
+    class MeshObjects : IDisposable, IEnumerable<MeshObject>
     {
         private List<MeshObject> _objects;
         public int Count { get => _objects.Count; }
@@ -42,6 +43,19 @@ namespace Template.Graphics
                 _objects.RemoveAt(i);
                 meshObject.Dispose();
             }
+        }
+
+        public IEnumerator<MeshObject> GetEnumerator()
+        {
+            foreach(MeshObject meshObject in _objects)
+            {
+                yield return meshObject;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

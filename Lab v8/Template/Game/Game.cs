@@ -18,40 +18,7 @@ using System.Drawing;
 namespace Template
 {
     class Game : IDisposable
-    {
-        // TODO: Realize game state logic.
-        ///// <summary>Game states.</summary>
-        ///// <remarks>
-        ///// <list type="bullet">
-        ///// <listheader>Correct state transitions:</listheader>
-        ///// <item>BeforeStart -> Play,</item>
-        ///// <item>BeforeStart -> Exit,</item>
-        ///// <item>Play <-> Pause,</item>
-        ///// <item>Play -> Finish,</item>
-        ///// <item>Play -> Die,</item>
-        ///// <item>Finish -> BeforeStart,</item>
-        ///// <item>Die -> BeforeStart,</item>
-        ///// <item>BeforeStart -> Exit,</item>
-        ///// <item>Pause -> Exit,</item>
-        ///// <item>Finish -> Exit,</item>
-        ///// <item>Die -> Exit</item>
-        ///// </list>
-        ///// </remarks>
-        //public enum GameState
-        //{
-        //    BeforeStart,
-        //    Play,
-        //    Pause,
-        //    Finish,
-        //    Die,
-        //    Exit
-        //}
-
-        ///// <summary>Game states.</summary>
-        //private GameState _gameState;
-        ///// <summary>Game states.</summary>
-        //public GameState State { get => _gameState; }
-
+    {      
         // TODO: HUD to separate class.
         public struct HUDResources
         {
@@ -81,6 +48,7 @@ namespace Template
         private Illumination _illumination;
         private MeshObject _floor;
         private MeshObject _cube;
+        private MeshObject _cube2;
         /// <summary>List of objects with meshes.</summary>
         private MeshObjects _meshObjects;
 
@@ -135,7 +103,7 @@ namespace Template
         {
             //_gameState = GameState.BeforeStart;
             _helpString = Resources.HelpString;
-
+            meshObjects = new List<MeshObject>();
             // Initialization order:
             // 1. Render form.
             _renderForm = new RenderForm("SharpDX");
@@ -157,6 +125,7 @@ namespace Template
             _textures.Add(loader.LoadTextureFromFile("Resources\\white.bmp", false, _samplerStates.Colored));
             _renderer.SetWhiteTexture(_textures["white.bmp"]);
             _textures.Add(loader.LoadTextureFromFile("Resources\\stone_wall.png", false, _samplerStates.Textured));
+            _textures.Add(loader.LoadTextureFromFile("Resources\\delorean.png", false, _samplerStates.Textured));
             _materials = loader.LoadMaterials("Resources\\materials.txt", _textures);
             // 6. Load meshes.
             _meshObjects = new MeshObjects();
@@ -165,6 +134,16 @@ namespace Template
             _cube = loader.LoadMeshObject("Resources\\cube.txt", _materials);
             //_cube.MoveBy(0.0f, 2.0f, 0.0f);
             _meshObjects.Add(_cube);
+            //_cube2 = loader.LoadMeshFromObject("Resources\\box.obj", _materials[2]);
+            Console.WriteLine("-----------------------------------------------");
+            Console.WriteLine();
+            Console.WriteLine("-----------------------------------------------");
+            //_meshObjects.Add(_cube2);
+            List<MeshObject> meshes = loader.LoadMeshesFromObject("Resources\\delorian.obj", _materials[3]);
+            foreach (var obj in meshes)
+            {
+                meshObjects.Add(obj);
+            }
             // 6. Load HUD resources into DirectX 2D object.
             InitHUDResources();
 
@@ -172,12 +151,12 @@ namespace Template
             _illumination = new Illumination(Vector4.Zero, new Vector4(1.0f, 1.0f, 0.9f, 1.0f), new LightSource[]
             {
                 new LightSource(LightSource.LightType.DirectionalLight,
-                    new Vector4(-10.0f, 8.0f, 0.0f, 1.0f),   // Position
+                    new Vector4(0.0f, 20.0f, 0.0f, 1.0f),   // Position
                     new Vector4(1.0f, -1.0f, 0.0f, 1.0f),   // Direction
-                    new Vector4(0.8f, 0.8f, 0.8f, 1.0f),    // Color
+                    new Vector4(1.0f, 1.0f, 1.0f, 1.0f),    // Color
                     0.0f,                                   // Spot angle
                     1.0f,                                   // Const atten
-                    0.1f,                                   // Linear atten
+                    0.0f,                                   // Linear atten
                     0.0f,                                   // Quadratic atten
                     1),
                 new LightSource(LightSource.LightType.SpotLight,
@@ -207,16 +186,16 @@ namespace Template
 
             // Character and camera. X0Z - ground, 0Y - to up.
             _character = new Character(new Vector4(0.0f, 0.0f, 0.0f, 1.0f), 10.0f, _inputController); //********
-            _camera = new Camera(new Vector4(0.0f, 0.0f, 0.0f, 1.0f));
+            _camera = new Camera(new Vector4(-10.0f, 10.0f, 0.0f, 1.0f));
             _character.AttachMeshObject(_cube);
             _character.AttachLightSource(_illumination[1]);
-            _camera.AttachToObject(_character);
+            //_camera.AttachToObject(_character);
 
             // Input controller and time helper.
             _inputController = new InputController(_renderForm);
             _timeHelper = new TimeHelper();
             _random = new Random();
-            meshObjects = new List<MeshObject>();
+            
             Vector4 initialPosition = new Vector4(20.5f, 1f, 20.5f, 1);
             Vector4 position = initialPosition;
             Bitmap bmp = new Bitmap("Resources\\map.bmp");
@@ -295,10 +274,16 @@ namespace Template
                 // Toggle fullscreen mode by F4, F5.
                 if (_inputController.Func[3]) _directX3DGraphics.IsFullScreen = false;
                 if (_inputController.Func[4]) _directX3DGraphics.IsFullScreen = true;
-                if (_inputController[SharpDX.DirectInput.Key.Down]) _camera.targetDelta += 0.1f;
-                if (_inputController[SharpDX.DirectInput.Key.Up]) _camera.targetDelta -= 0.1f;
-                if (_inputController[SharpDX.DirectInput.Key.Left]) _camera.upDelta += 0.1f;
-                if (_inputController[SharpDX.DirectInput.Key.Right]) _camera.upDelta -= 0.1f;
+                if (_inputController[SharpDX.DirectInput.Key.Down]) _camera.PitchBy(0.01f);
+                if (_inputController[SharpDX.DirectInput.Key.Up]) _camera.PitchBy(-0.01f);
+                if (_inputController[SharpDX.DirectInput.Key.Left]) _camera.YawBy(0.01f);
+                if (_inputController[SharpDX.DirectInput.Key.Right]) _camera.YawBy(-0.01f);
+                if (_inputController[SharpDX.DirectInput.Key.H]) _camera.MoveRightBy(-0.5f);
+                if (_inputController[SharpDX.DirectInput.Key.K]) _camera.MoveRightBy(+0.5f);
+                if (_inputController[SharpDX.DirectInput.Key.J]) _camera.MoveForwardBy(-0.5f);
+                if (_inputController[SharpDX.DirectInput.Key.U]) _camera.MoveForwardBy(0.5f);
+                if (_inputController[SharpDX.DirectInput.Key.Y]) _camera.MoveUpBy(-0.5f);
+                if (_inputController[SharpDX.DirectInput.Key.I]) _camera.MoveUpBy(0.5f);
             }
 
             _viewMatrix = _camera.GetViewMatrix();
@@ -313,25 +298,33 @@ namespace Template
             _illumination[1] = light1;
             _renderer.UpdateIlluminationProperties(_illumination);
 
-            //_renderer.SetPerObjectConstants(_timeHelper.Time, 0);//1);
+            _renderer.SetPerObjectConstants(_timeHelper.Time, 0);//1);
             float angle = _timeHelper.Time * 2.0f * (float)Math.PI * 0.25f; // Frequency = 0.25 Hz
-            //_cube.Pitch = angle;
+            _cube.Pitch = angle;
 
             float time = _timeHelper.Time;
             _renderer.SetPerObjectConstants(time, 0); //1);
             Matrix worldMatrix = _cube.GetWorldMatrix();
-            _renderer.UpdatePerObjectConstantBuffer(0, worldMatrix, _viewMatrix, _projectionMatrix);
-            _cube.Render();
+            //_renderer.UpdatePerObjectConstantBuffer(0, worldMatrix, _viewMatrix, _projectionMatrix);
+            _cube.Render(_viewMatrix, _projectionMatrix);
             _renderer.SetPerObjectConstants(time, 0);
             worldMatrix = _floor.GetWorldMatrix();
-            _renderer.UpdatePerObjectConstantBuffer(0, worldMatrix, _viewMatrix, _projectionMatrix);
-            _floor.Render();
+            //_renderer.UpdatePerObjectConstantBuffer(0, worldMatrix, _viewMatrix, _projectionMatrix);
+            _floor.Render(_viewMatrix, _projectionMatrix);
 
-            foreach(var mesh in meshObjects)
+
+            //worldMatrix = _cube2.GetWorldMatrix();
+            //_renderer.UpdatePerObjectConstantBuffer(0, worldMatrix, _viewMatrix, _projectionMatrix);
+            //_cube2.Render();
+
+            foreach (var mesh in meshObjects)
             {
+                _renderer.SetPerObjectConstants(_timeHelper.Time, 0);//1);
+                float angle1 = _timeHelper.Time * 2.0f * (float)Math.PI * 0.25f; // Frequency = 0.25 Hz
+                mesh.Yaw = angle1;
                 worldMatrix = mesh.GetWorldMatrix();
-                _renderer.UpdatePerObjectConstantBuffer(0, worldMatrix, _viewMatrix, _projectionMatrix);
-                mesh.Render();
+                //_renderer.UpdatePerObjectConstantBuffer(0, worldMatrix, _viewMatrix, _projectionMatrix);
+                mesh.Render(_viewMatrix, _projectionMatrix);
             }
 
             RenderHUD();

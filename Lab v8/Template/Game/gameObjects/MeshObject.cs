@@ -98,8 +98,9 @@ namespace Template
             _indexBufferObject = Buffer11.Create(_directX3DGraphics.Device, BindFlags.IndexBuffer, _indexes, Utilities.SizeOf<int>() * _indexesCount);
         }
 
-        public virtual void Render()
+        public virtual void Render(Matrix viewMatrix, Matrix projectionMatrix)
         {
+            _renderer.UpdatePerObjectConstantBuffer(0, GetWorldMatrix(), viewMatrix, projectionMatrix);
             DeviceContext deviceContext = _directX3DGraphics.DeviceContext;
             _renderer.UpdateMaterialProperties(_material);
             deviceContext.InputAssembler.PrimitiveTopology = PrimitiveTopology.TriangleList;

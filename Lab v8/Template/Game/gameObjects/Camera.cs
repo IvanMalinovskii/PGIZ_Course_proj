@@ -63,7 +63,7 @@ namespace Template
         /// <returns>Projection matrix.</returns>
         public Matrix GetProjectionMatrix()
         {
-            return Matrix.PerspectiveFovLH(_fovY, _aspect, 0.1f, 100.0f);
+            return Matrix.PerspectiveFovLH(_fovY, _aspect, 0.1f, 1000.0f);
             //return Matrix.OrthoOffCenterLH(-15, 15, -15, 15, 0.1f, 100);
         }
 
@@ -71,21 +71,36 @@ namespace Template
         /// <returns>View matrix.</returns>
         public Matrix GetViewMatrix()
         {
+            //if (_objectToAttached != null)
+            //{
+            //    _position = _objectToAttached.Position;
+            //    _position.Y += 15;
+            //    _position.X -= 25;
+            //}
+            //Vector3 viewUp = new Vector3(1, 0, 0);
+            //Vector3 target = (Vector3)_position;
+            //target.Y -= 1;
+            //target.X += 1.5f;
+            //description.pos = (Vector3)_position;
+            //description.target = target;
+            //description.up = viewUp;
+
+            //return Matrix.LookAtLH((Vector3)_position, target, viewUp);
+
             if (_objectToAttached != null)
             {
                 _position = _objectToAttached.Position;
-                _position.Y += 15;
-                _position.X -= 25;
+                Yaw = _objectToAttached.Yaw;
+                Pitch = _objectToAttached.Pitch;
+                Roll = _objectToAttached.Roll;
             }
-            Vector3 viewUp = new Vector3(1, 0, 0);
-            Vector3 target = (Vector3)_position;
-            target.Y -= 1;
-            target.X += 1.5f;
+            Matrix rotation = Matrix.RotationYawPitchRoll(Yaw, Pitch, Roll);
+            Vector3 viewTo = (Vector3)Vector4.Transform(-Vector4.UnitZ, rotation);
+            Vector3 viewUp = (Vector3)Vector4.Transform(Vector4.UnitY, rotation);
             description.pos = (Vector3)_position;
-            description.target = target;
+            description.target = (Vector3)_position + viewTo;
             description.up = viewUp;
-            
-            return Matrix.LookAtLH((Vector3)_position, target, viewUp);
+            return Matrix.LookAtLH((Vector3)_position, (Vector3)_position + viewTo, viewUp);
         }
 
 

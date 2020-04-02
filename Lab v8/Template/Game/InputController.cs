@@ -138,7 +138,13 @@ namespace Template
                 {Key.Up, false },
                 {Key.Down, false },
                 {Key.Left, false },
-                {Key.Right, false }
+                {Key.Right, false },
+                {Key.U, false },
+                {Key.J, false },
+                {Key.H, false },
+                {Key.K, false },
+                {Key.Y, false },
+                {Key.I, false }
             };
             _directInput = new DirectInput();
 

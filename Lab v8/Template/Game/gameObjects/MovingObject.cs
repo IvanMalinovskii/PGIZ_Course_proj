@@ -33,7 +33,7 @@ namespace Template
             LightSource.Position = _position;
         }
 
-        public void MoveByDirection(float speed, string direction)
+        public override void MoveByDirection(float speed, string direction)
         {
             switch (direction)
             {

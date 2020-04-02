@@ -91,6 +91,9 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CjClutter.ObjLoader.Loader">
+      <HintPath>..\packages\CjClutter.ObjLoader.Loader.dll</HintPath>
+    </Reference>
     <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.4.2.0\lib\net45\SharpDX.dll</HintPath>
     </Reference>
@@ -152,7 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game\gameObjects\Camera.cs" />
-    <Compile Include="Game\gameObjects\Character.cs" />
+    <Compile Include="Game\gameObjects\MovingObject.cs" />
     <Compile Include="Graphics\DirectX2DGraphics.cs" />
     <Compile Include="Graphics\DirectX3DGraphics.cs" />
     <Compile Include="Game\Game.cs" />

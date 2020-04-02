@@ -1,0 +1,5 @@
+D:\study\3_course_2_sem\ПГИЗ\course_proj\PGIZ_Course_proj\Lab v8\ObjectParserLibrary\bin\Debug\ObjectParserLibrary.dll
+D:\study\3_course_2_sem\ПГИЗ\course_proj\PGIZ_Course_proj\Lab v8\ObjectParserLibrary\bin\Debug\ObjectParserLibrary.pdb
+D:\study\3_course_2_sem\ПГИЗ\course_proj\PGIZ_Course_proj\Lab v8\ObjectParserLibrary\obj\Debug\ObjectParserLibrary.csprojAssemblyReference.cache
+D:\study\3_course_2_sem\ПГИЗ\course_proj\PGIZ_Course_proj\Lab v8\ObjectParserLibrary\obj\Debug\ObjectParserLibrary.dll
+D:\study\3_course_2_sem\ПГИЗ\course_proj\PGIZ_Course_proj\Lab v8\ObjectParserLibrary\obj\Debug\ObjectParserLibrary.pdb

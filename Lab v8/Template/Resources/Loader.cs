@@ -11,6 +11,9 @@ using SharpDX.WIC;
 using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
 using Template.Graphics;
+using ObjLoader.Loader.Loaders;
+using static Template.MeshObject;
+using ObjLoader.Loader.Data.Elements;
 
 namespace Template
 {
@@ -227,6 +230,87 @@ namespace Template
                 new Vector4(0.0f),
                 vertices, indexes, material);
             return meshObject;
+        }
+
+        public MeshObject LoadMeshFromObject(string file, Material material)
+        {
+            LoadResult result = GetResult(file);
+            //Group group = result.Groups[0];
+            //Console.WriteLine("----------------------------------");
+            //Console.WriteLine(result.Vertices.Count);
+            //Console.WriteLine(group.Name);
+            //Console.WriteLine("----------------------------------");
+            return GetMesh(result, 0, material);
+        }
+
+        public List<MeshObject> LoadMeshesFromObject(string file, Material material)
+        {
+            List<MeshObject> meshObjects = new List<MeshObject>();
+            LoadResult result = GetResult(file);
+            ((List<Group>)result.Groups).ForEach(el => Console.WriteLine(el.Name));
+            for (int groupIndex = 0; groupIndex < result.Groups.Count; groupIndex++)
+            {
+                meshObjects.Add(GetMesh(result, groupIndex, material));
+            }
+            return meshObjects;
+        }
+
+        private MeshObject GetMesh(LoadResult result, int groupIndex, Material material)
+        {
+            Group group = result.Groups[groupIndex];
+            int vertexCount = group.Faces.Count;
+            VertexDataStruct[] vertices = new VertexDataStruct[vertexCount * 3];
+            uint[] indexes = new uint[vertexCount * 3];
+            uint count = 0;
+            for (int index = 0; index < vertexCount; index++)
+            {
+                for (int vertIndex = 0; vertIndex < 3; vertIndex++)
+                {
+                    VertexDataStruct vertex = new VertexDataStruct();
+                    int position = group.Faces[index][vertIndex].VertexIndex - 1;
+                    vertex.position = GetPosition(result.Vertices[position]);
+                    position = group.Faces[index][vertIndex].NormalIndex - 1;
+                    vertex.normal = GetNormal(result.Normals[position]);
+                    vertex.color = new Vector4(0.8f, 0.0f, 0.5f, 1.0f);
+                    position = group.Faces[index][vertIndex].TextureIndex - 1;
+                    vertex.texCoord0 = (position == -1) ? Vector2.Zero : GetTextureCoord(result.Textures[position]);
+                    vertex.texCoord1 = Vector2.Zero;
+                    vertices[count] = vertex;
+                    indexes[count] = count++;
+                }
+                VertexDataStruct tempVertex = vertices[count - 3];
+                vertices[count - 3] = vertices[count - 2];
+                vertices[count - 2] = tempVertex;
+            }
+
+            return new MeshObject(group.Name, _directX3DGraphics, _renderer,
+                new Vector4(0.0f),
+                vertices, indexes, material);
+        }
+
+        private LoadResult GetResult(string file)
+        {
+            IObjLoaderFactory factory = new ObjLoaderFactory();
+            IObjLoader objLoader = factory.Create();
+            using(var stream = new FileStream(file, FileMode.Open))
+            {          
+                return objLoader.Load(stream);
+            }
+        }
+
+        private Vector4 GetPosition(ObjLoader.Loader.Data.VertexData.Vertex vertex)
+        {
+            return new Vector4(vertex.X, vertex.Y, vertex.Z, 1.0f);
+        }
+
+        private Vector4 GetNormal(ObjLoader.Loader.Data.VertexData.Normal normal)
+        {
+            return new Vector4(normal.X, normal.Y, normal.Z, 1.0f);
+        }
+
+        private Vector2 GetTextureCoord(ObjLoader.Loader.Data.VertexData.Texture texture)
+        {
+            return new Vector2(texture.X, texture.Y);
         }
     }
 }
