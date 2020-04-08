@@ -4,16 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SharpDX;
+using SharpDX.DirectInput;
 
 namespace Template
 {
-    class Camera : PositionalObject
+    public class Camera : PositionalObject
     {
-        /// <summary>Field Of View angle in vertical plane.</summary>
-        private float _fovY = HALF_PI / 2.0f;
-        /// <summary>Field Of View angle in vertical plane.</summary>
-        /// <value>Field Of View angle in vertical plane.</value>
-        public float FOVY { get => _fovY; set => _fovY = value; }
+        private Dictionary<Key, Action<Dictionary<string, object>>> inputs;
+        public float FOVY { get; set; } = HALF_PI / 2.0f;
+        private InputController controller;
+        public InputController Controller {
+            get => controller;
+            set
+            {
+                controller = value;
+                if (inputs == null) inputs = new Dictionary<Key, Action<Dictionary<string, object>>>();
+            }
+        }
         public struct Descr
         {
             public Vector3 pos;
@@ -63,7 +70,7 @@ namespace Template
         /// <returns>Projection matrix.</returns>
         public Matrix GetProjectionMatrix()
         {
-            return Matrix.PerspectiveFovLH(_fovY, _aspect, 0.1f, 1000.0f);
+            return Matrix.PerspectiveFovLH(FOVY, _aspect, 0.1f, 1000.0f);
             //return Matrix.OrthoOffCenterLH(-15, 15, -15, 15, 0.1f, 100);
         }
 
@@ -89,7 +96,7 @@ namespace Template
 
             if (_objectToAttached != null)
             {
-                _position = _objectToAttached.Position;
+                position = _objectToAttached.Position;
                 Yaw = _objectToAttached.Yaw;
                 Pitch = _objectToAttached.Pitch;
                 Roll = _objectToAttached.Roll;
@@ -97,12 +104,10 @@ namespace Template
             Matrix rotation = Matrix.RotationYawPitchRoll(Yaw, Pitch, Roll);
             Vector3 viewTo = (Vector3)Vector4.Transform(-Vector4.UnitZ, rotation);
             Vector3 viewUp = (Vector3)Vector4.Transform(Vector4.UnitY, rotation);
-            description.pos = (Vector3)_position;
-            description.target = (Vector3)_position + viewTo;
+            description.pos = (Vector3)position;
+            description.target = (Vector3)position + viewTo;
             description.up = viewUp;
-            return Matrix.LookAtLH((Vector3)_position, (Vector3)_position + viewTo, viewUp);
+            return Matrix.LookAtLH((Vector3)position, (Vector3)position + viewTo, viewUp);
         }
-
-
     }
 }

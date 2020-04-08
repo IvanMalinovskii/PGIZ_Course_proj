@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Template.Graphics
 {
-    class MeshObjects : IDisposable, IEnumerable<MeshObject>
+    public class MeshObjects : IDisposable, IEnumerable<MeshObject>
     {
         private List<MeshObject> _objects;
         public int Count { get => _objects.Count; }
@@ -32,7 +32,17 @@ namespace Template.Graphics
         public void Add(MeshObject meshObject)
         {
             _objects.Add(meshObject);
-            meshObject.Index = _objects.Count - 1;
+            //meshObject.Index = _objects.Count - 1;
+        }
+
+        public void AddRange(List<MeshObject> meshObjects)
+        {
+            _objects.AddRange(meshObjects);
+        }
+
+        public bool IsEmpty()
+        {
+            return _objects.Count == 0;
         }
 
         public void Dispose()

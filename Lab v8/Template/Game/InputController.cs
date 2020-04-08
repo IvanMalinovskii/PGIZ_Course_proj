@@ -97,7 +97,12 @@ namespace Template
         public bool this[Key key]
         {
             get => controlButtons[key];
-            private set => controlButtons[key] = value;
+            set => controlButtons[key] = value;
+        }
+
+        public bool this[Key key1, Key key2]
+        {
+            get => (this[key1] && this[key2]) ? true : false;
         }
         /// <summary>Mouse button press "event" (0 - left, 1 - right, 2 - middle, ... 7).</summary>
         private bool[] _mouseButtons = new bool[8];
@@ -122,7 +127,7 @@ namespace Template
         /// <summary>Mouse Z relative position (scroll) from previous update.</summary>
         /// <value>Mouse Z relative position (scroll) from previous update.</value>
         public int MouseRelativePositionZ { get => _mouseRelativePositionZ; }
-
+        public List<Key> PressedButtons { get; set; }
         /// <summary>
         /// Constructor create DirectInput, Keyboard, 
         /// </summary>
@@ -144,7 +149,9 @@ namespace Template
                 {Key.H, false },
                 {Key.K, false },
                 {Key.Y, false },
-                {Key.I, false }
+                {Key.I, false },
+                {Key.G, false },
+                {Key.F, false }
             };
             _directInput = new DirectInput();
 
@@ -227,7 +234,7 @@ namespace Template
             // Functional keys by key up.
             for (int i = 0; i <= 9; i++)
                 _func[i] = ProcessKeyPressTriggerByKeyUp(_funcKeys[i], ref _funcPreviousPressed[i], ref _funcCurrentPressed[i]);
-
+            PressedButtons = _keyboardState.PressedKeys;
             // For move keys we need current state.
             for(int index = 0; index < controlButtons.Keys.Count; index++)
             {
@@ -310,6 +317,16 @@ namespace Template
             _keyboard.Unacquire();
             Utilities.Dispose(ref _keyboard);
             Utilities.Dispose(ref _directInput);
+        }
+
+        public bool ContainsButton(Key key)
+        {
+            return controlButtons.ContainsKey(key);
+        }
+
+        public void AddButton(Key key)
+        {
+            controlButtons.Add(key, false);
         }
     }
 }

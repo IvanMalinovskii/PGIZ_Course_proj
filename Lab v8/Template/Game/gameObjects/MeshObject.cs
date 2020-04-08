@@ -16,7 +16,7 @@ namespace Template
     /// <summary>
     /// 3D object with mesh.
     /// </summary>
-    class MeshObject : PositionalObject, IDisposable
+    public class MeshObject : PositionalObject, IDisposable
     {
         [StructLayout(LayoutKind.Sequential)]
         public struct VertexDataStruct
@@ -27,8 +27,9 @@ namespace Template
             public Vector2 texCoord0;
             public Vector2 texCoord1;
         }
-
-        public string Name { get; }
+        public BoundingBox collider;
+        public string Name { get; set; }
+        public bool IsCollider { get; set; }
         public int Index { get; set; }
 
         private DirectX3DGraphics _directX3DGraphics;
@@ -96,6 +97,8 @@ namespace Template
             _vertexBufferObject = Buffer11.Create(_directX3DGraphics.Device, BindFlags.VertexBuffer, _vertices, Utilities.SizeOf<VertexDataStruct>() * _verticesCount);
             _vertexBufferBinding = new VertexBufferBinding(_vertexBufferObject, Utilities.SizeOf<VertexDataStruct>(), 0);
             _indexBufferObject = Buffer11.Create(_directX3DGraphics.Device, BindFlags.IndexBuffer, _indexes, Utilities.SizeOf<int>() * _indexesCount);
+            collider = new BoundingBox(GetMin(), GetMax());
+            
         }
 
         public virtual void Render(Matrix viewMatrix, Matrix projectionMatrix)
@@ -113,6 +116,47 @@ namespace Template
         {
             Utilities.Dispose(ref _indexBufferObject);
             Utilities.Dispose(ref _vertexBufferObject);
+        }
+
+        public BoundingBox GetNewCollider(Vector4 position)
+        {
+            Vector3 min = Vector3.Add((Vector3)position, GetRawMin());
+            Vector3 max = Vector3.Add((Vector3)position, GetRawMax());
+            return new BoundingBox(min, max);
+        }
+
+        public Vector3 GetMin()
+        {   
+            return Vector3.Add((Vector3)Position, GetRawMin());
+        }
+
+        private Vector3 GetRawMin()
+        {
+            Vector3 min = (Vector3)_vertices[0].position;
+            for (int index = 1; index < _vertices.Length; index++)
+            {
+                min = Vector3.Min(min, (Vector3)_vertices[index].position);
+            }
+            return min;
+        }
+
+        private Vector3 GetRawMax()
+        {
+            Vector3 max = (Vector3)_vertices[0].position;
+            for (int index = 1; index < _vertices.Length; index++)
+            {
+                //Console.WriteLine($"vector: {_vertices[index].position}");
+                //Console.WriteLine($"vector_max_before: {max}");
+                max = Vector3.Max(max, (Vector3)_vertices[index].position);
+                //Console.WriteLine($"vector_max_after: {max}");
+            }
+            //Console.WriteLine($"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
+            return max;
+        }
+
+        public Vector3 GetMax()
+        {
+            return Vector3.Add((Vector3)Position, GetRawMax());
         }
     }
 }

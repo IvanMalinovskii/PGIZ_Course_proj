@@ -18,7 +18,7 @@ namespace Template
     /// <summary>
     /// Renderer is holder of Shader's program, input layout.
     /// </summary>
-    class Renderer : IDisposable
+    public class Renderer : IDisposable
     {
         [StructLayout(LayoutKind.Sequential)]
         public struct PerObjectConstantBuffer // For vertex shader (b0)
@@ -144,7 +144,7 @@ namespace Template
         public void BeginRender()
         {
             // Clear depth and stencil buffer and render view
-            _directX3DGraphics.ClearBuffers(Color.Black);
+            _directX3DGraphics.ClearBuffers(Color.LightBlue);
         }
 
         /// <summary>Render 3D object.</summary>

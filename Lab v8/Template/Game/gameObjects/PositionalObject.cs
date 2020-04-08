@@ -13,26 +13,26 @@ namespace Template
         public static readonly float TWO_PI = (float)Math.PI * 2.0f;
         public static readonly float HALF_PI = (float)Math.PI / 2.0f;
 
-        protected Vector4 _position;
-        public Vector4 Position { get => _position; set => _position = value; }
+        protected Vector4 position;
+        public Vector4 Position { get => position; set => position = value; }
         public float Yaw { get; set; }
         public float Pitch { get; set; }
         public float Roll { get; set; }
         public PositionalObject(Vector4 initialPosition)
         {
-            _position = initialPosition;
+            position = initialPosition;
         }
 
         public virtual void MoveTo(float x, float y, float z)
         {
-            _position.X = x;
-            _position.Y = y;
-            _position.Z = z;
+            position.X = x;
+            position.Y = y;
+            position.Z = z;
         }
 
         public Matrix GetWorldMatrix()
         {
-            return Matrix.Multiply(Matrix.RotationYawPitchRoll(Yaw, Pitch, Roll), Matrix.Translation((Vector3)_position));
+            return Matrix.Multiply(Matrix.RotationYawPitchRoll(Yaw, Pitch, Roll), Matrix.Translation((Vector3)position));
         }
 
         public virtual void YawBy(float deltaYaw)
@@ -62,10 +62,10 @@ namespace Template
         {
             switch (direction)
             {
-                case "forward": _position.X += speed; break;
-                case "back": _position.X -= speed; break;
-                case "left": _position.Z += speed; break;
-                case "right": _position.Z -= speed; break;
+                case "forward": position.X += speed; break;
+                case "back": position.X -= speed; break;
+                case "left": position.Z += speed; break;
+                case "right": position.Z -= speed; break;
             }
         }
 
@@ -73,21 +73,21 @@ namespace Template
         /// <param name="moveBy">Amount of movement.</param>
         public void MoveForwardBy(float moveBy)
         {
-            _position.X -= moveBy * (float)Math.Sin(Yaw);
-            _position.Z -= moveBy * (float)Math.Cos(Yaw);
+            position.X -= moveBy * (float)Math.Sin(Yaw);
+            position.Z -= moveBy * (float)Math.Cos(Yaw);
         }
 
         public void MoveUpBy(float moveBy)
         {
-            _position.Y += moveBy;
+            position.Y += moveBy;
         }
 
         /// <summary>Move to right or to left (depends of moveBy sign: positive - to right).</summary>
         /// <param name="moveBy">Amount of movement.</param>
         public void MoveRightBy(float moveBy)
         {
-            _position.X -= moveBy * (float)Math.Cos(Yaw);
-            _position.Z += moveBy * (float)Math.Sin(Yaw);
+            position.X -= moveBy * (float)Math.Cos(Yaw);
+            position.Z += moveBy * (float)Math.Sin(Yaw);
         }
     }
 }

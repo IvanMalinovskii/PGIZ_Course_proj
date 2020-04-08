@@ -14,7 +14,7 @@ namespace Template
         [STAThread]
         static void Main()
         {
-            Game game = new Game();
+            GameProcess game = new GameProcess();
             game.Run();
             game.Dispose();
         }

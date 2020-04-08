@@ -14,12 +14,16 @@ using Template.Graphics;
 using ObjLoader.Loader.Loaders;
 using static Template.MeshObject;
 using ObjLoader.Loader.Data.Elements;
+using ObjLoader.Loader.Data;
+using Material = Template.Graphics.Material;
 
 namespace Template
 {
     /// <summary>Load objects data from text files, material libraries from text files, textures from images.</summary>
     class Loader
     {
+        public Texture StubTexture { get; set; }
+        private SamplerStates samplerState;
         private DirectX3DGraphics _directX3DGraphics;
         private DirectX2DGraphics _directX2DGraphics;
         private Renderer _renderer;
@@ -31,6 +35,7 @@ namespace Template
             _directX2DGraphics = directX2DGraphics;
             _renderer = renderer;
             _imagingFactory = imagingFactory;
+            samplerState = new SamplerStates(_directX3DGraphics);
         }
 
         private float ParseFloat(string str)
@@ -282,10 +287,32 @@ namespace Template
                 vertices[count - 3] = vertices[count - 2];
                 vertices[count - 2] = tempVertex;
             }
-
+            Material targetMaterial = (group.Material == null) ? material : GetMaterial(group.Material);
+            Console.WriteLine($"target mat: {targetMaterial.Name}");
             return new MeshObject(group.Name, _directX3DGraphics, _renderer,
                 new Vector4(0.0f),
-                vertices, indexes, material);
+                vertices, indexes, targetMaterial);
+        }
+
+        public Material GetMaterial(ObjLoader.Loader.Data.Material material)
+        {
+            bool isTextured = string.IsNullOrEmpty(material.AmbientTextureMap) ? false : true;
+            Texture texture = string.IsNullOrEmpty(material.AmbientTextureMap) 
+                ? StubTexture : LoadTextureFromFile(material.AmbientTextureMap, false, samplerState.Textured);
+            Console.WriteLine($"isText: {isTextured}; texture: {texture}");
+            return new Material(material.Name,
+                new Vector4(0, 0, 0, 1.0f),
+                GetFromVec3(material.AmbientColor),
+                GetFromVec3(material.DiffuseColor),
+                GetFromVec3(material.SpecularColor),
+                material.SpecularCoefficient,
+                isTextured,
+                texture);
+        }
+
+        public Vector4 GetFromVec3(Vec3 vec3)
+        {
+            return new Vector4(vec3.X, vec3.Y, vec3.Z, 1.0f);
         }
 
         private LoadResult GetResult(string file)
