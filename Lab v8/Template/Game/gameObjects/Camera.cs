@@ -35,7 +35,7 @@ namespace Template
         /// <summary>Aspect ratio.</summary>
         /// <value>Aspect ratio.</value>
         public float Aspect { get => _aspect; set => _aspect = value; }
-
+        public float Scale { get; set; }
         /// <summary>Game object, to what attached camera.</summary>
         private PositionalObject _objectToAttached = null;
 
@@ -46,10 +46,10 @@ namespace Template
         /// <param name="yaw">Initial angle of rotation around 0Y axis (x - to left, y - to up, z - to back), rad.</param>
         /// <param name="pitch">Initial angle of rotation around 0X axis (x - to left, y - to up, z - to back), rad.</param>
         /// <param name="roll">Initial rotation around 0Z axis (x - to left, y - to up, z - to back), rad.</param>
-        public Camera(Vector4 initialPosition, float aspect = 1.0f) :
+        public Camera(Vector4 initialPosition, float scale = 5.0f) :
             base (initialPosition)
         {
-            _aspect = aspect;
+            Scale = scale;
         }
 
         /// <summary>Attach camera to game object. When camera attached to some object, position and rotation copies from object.
@@ -68,9 +68,10 @@ namespace Template
 
         /// <summary>Get projection matrix.</summary>
         /// <returns>Projection matrix.</returns>
-        public Matrix GetProjectionMatrix()
+        public Matrix GetProjectionMatrix(float width, float height)
         {
-            return Matrix.PerspectiveFovLH(FOVY, _aspect, 0.1f, 1000.0f);
+            return Matrix.OrthoLH(width / Scale, height / Scale, 0, 1000);
+            //return Matrix.PerspectiveFovLH(FOVY, _aspect, 0.1f, 1000.0f);
             //return Matrix.OrthoOffCenterLH(-15, 15, -15, 15, 0.1f, 100);
         }
 

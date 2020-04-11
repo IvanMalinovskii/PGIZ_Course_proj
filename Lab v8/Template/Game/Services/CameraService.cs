@@ -43,7 +43,7 @@ namespace Template.Game.Services
             MoveSpeed = 0.3f;
             LookSpeed = 0.01f;
             camera.Pitch = -0.73f;
-            camera.Yaw = -1.57f;
+            camera.Yaw = -PositionalObject.HALF_PI;
         }
         public Matrix GetViewMatrix()
         {
@@ -53,7 +53,7 @@ namespace Template.Game.Services
         public Matrix SetAfterResize(int width, int height)
         {
             camera.Aspect = width / (float)height;
-            return camera.GetProjectionMatrix();
+            return camera.GetProjectionMatrix(width, height);
         }
 
         public void Update()

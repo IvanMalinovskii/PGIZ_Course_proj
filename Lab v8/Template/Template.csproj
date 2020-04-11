@@ -154,6 +154,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Game\Animations\AnimationEventArgs.cs" />
+    <Compile Include="Game\Animations\Animation.cs" />
+    <Compile Include="Game\Animations\RotationAnimation.cs" />
+    <Compile Include="Game\Animations\SlideAnimation.cs" />
     <Compile Include="Game\gameObjects\Camera.cs" />
     <Compile Include="Game\gameObjects\newObjects\Character.cs" />
     <Compile Include="Game\gameObjects\MovingObject.cs" />
@@ -162,6 +166,7 @@
     <Compile Include="Game\gameObjects\newObjects\Map.cs" />
     <Compile Include="Game\gameObjects\newObjects\StaticObject.cs" />
     <Compile Include="Game\gameObjects\newObjects\Unit.cs" />
+    <Compile Include="Game\gameObjects\newServices\AnimationService.cs" />
     <Compile Include="Game\gameObjects\newServices\ICharacterService.cs" />
     <Compile Include="Game\gameObjects\newServices\MainCharacterService.cs" />
     <Compile Include="Game\gameObjects\newServices\MapService.cs" />

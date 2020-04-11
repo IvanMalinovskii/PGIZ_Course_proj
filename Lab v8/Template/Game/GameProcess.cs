@@ -108,8 +108,8 @@ namespace Template
             _directX2DGraphics = new DirectX2DGraphics(_directX3DGraphics);
             Loader loader = new Loader(_directX3DGraphics, _directX2DGraphics, _renderer, _directX2DGraphics.ImagingFactory);
             _samplerStates = new SamplerStates(_directX3DGraphics);
+            _timeHelper = new TimeHelper();
 
-            
             InitializeTextures(loader);
             _renderer.SetWhiteTexture(_textures["white.bmp"]);
             loader.StubTexture = _textures["white.bmp"];
@@ -136,10 +136,10 @@ namespace Template
 
             //Archer archer = new Archer(new Vector4(0, 0, 0, 0));
             //archer.AddMeshObjects(meshes);
-            mainCharacterService = new MainCharacterService("some", _inputController, loader);
-            mainCharacterService.AddMeshObjects(meshes);
-            mapService = new MapService("some", loader, _materials[2]);
-            _timeHelper = new TimeHelper();
+            mainCharacterService = new MainCharacterService("some", _inputController, loader, _materials[3], _timeHelper);
+            //mainCharacterService.AddMeshObjects(meshes);
+            mapService = new MapService(mainCharacterService, "some", loader, _materials[3]);
+            
             cameraService = new CameraService(new Camera(new Vector4(-116.0f, 84.0f, 0.0f, 1.0f)), _inputController);
             
             Vector4 initialPosition = new Vector4(20.5f, 1f, 20.5f, 1);
@@ -199,9 +199,7 @@ namespace Template
 
             float time = _timeHelper.Time;
             _renderer.SetPerObjectConstants(time, 0); //1);
-            //_cube.Render(_viewMatrix, _projectionMatrix);
             _renderer.SetPerObjectConstants(time, 0);
-            //_floor.Render(_viewMatrix, _projectionMatrix);
 
             foreach (var mesh in _meshObjects)
             {
@@ -270,7 +268,9 @@ namespace Template
                                 $"MX: {_inputController.MouseRelativePositionX,3:d2} MY: {_inputController.MouseRelativePositionY,3:d2} MZ: {_inputController.MouseRelativePositionZ,4:d3}\n" +
                                 $"LB: {(_inputController.MouseButtons[0] ? 1 : 0)} MB: {(_inputController.MouseButtons[2] ? 1 : 0)} RB: {(_inputController.MouseButtons[1] ? 1 : 0)}\n" +
                                 //$"Pos: {_character.Position.X,6:f1}, {_character.Position.Y,6:f1}, {_character.Position.Z,6:f1}\n" +
-                                cameraService.GetDebugString();
+                                cameraService.GetDebugString() + 
+                                "\n" + mainCharacterService.ToString()
+                                +"\n" +mainCharacterService.Character.Yaw;
             if (_displayHelp) text += "\n\n" + _helpString;
             float armorWidthInDIP = _directX2DGraphics.Bitmaps[_HUDResources.armorIconIndex].Size.Width;
             float armorHeightInDIP = _directX2DGraphics.Bitmaps[_HUDResources.armorIconIndex].Size.Height;

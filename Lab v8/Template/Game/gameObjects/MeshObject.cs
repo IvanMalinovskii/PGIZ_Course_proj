@@ -59,6 +59,7 @@ namespace Template
         #endregion
 
         private Material _material;
+        public Material Material { get => _material; set => _material = value; }
 
         /// <summary>
         /// Constructor.

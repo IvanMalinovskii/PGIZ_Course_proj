@@ -10,6 +10,31 @@ namespace Template.Game.gameObjects.newObjects
 {
     public abstract class DrawableObject : PositionalObject
     {
+        public override Vector4 Position { 
+            get => base.Position; 
+            set 
+            {
+                base.Position = value;
+                foreach(var meshObject in MeshObjects)
+                {
+                    meshObject.Position = value;
+                }
+            }
+        }
+
+        public override float Yaw 
+        {
+            get => base.Yaw; 
+            set
+            {
+                base.Yaw = value;
+                foreach (var meshObject in MeshObjects)
+                {
+                    meshObject.Yaw = value;
+                }
+            }
+        }
+
         public MeshObjects MeshObjects { get; protected set; }
         public MeshObject this[string name] { get => MeshObjects[name]; }
         public DrawableObject(Vector4 initialPosition) : base(initialPosition)

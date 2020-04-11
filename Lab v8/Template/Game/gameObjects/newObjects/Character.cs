@@ -14,6 +14,7 @@ namespace Template.Game.gameObjects.interfaces
         protected static readonly int MOVEMENT_ABILITY = 1;
         protected static readonly int HEALTH = 6;
         protected static readonly int DAMAGE = 1;
+        public float Offset { get; set; }
         public bool IsActive { get; set; }
         public bool IsAlive { get; set; }
         public int Health { get; set; }
@@ -38,11 +39,12 @@ namespace Template.Game.gameObjects.interfaces
 
         public void MoveByDirection(float offset)
         {
-            position = GetNewPosition(offset);
-            foreach (var meshObject in MeshObjects)
-            {
-                meshObject.Position = position;
-            }
+            Position = GetNewPosition(offset);
+        }
+
+        public Vector4 GetNewPosition()
+        {
+            return GetNewPosition(Offset);
         }
 
         public Vector4 GetNewPosition(float offset)
@@ -53,6 +55,15 @@ namespace Template.Game.gameObjects.interfaces
             return newPosition;
         } 
 
+        public float GetNewYawRotation()
+        {
+            if (Direction == new Vector3(-1, 0, 0)) return 0.0f;
+            else if (Direction == new Vector3(1, 0, 0)) return PI;
+            else if (Direction == new Vector3(0, 0, -1)) return PI + HALF_PI;
+            else if (Direction == new Vector3(0, 0, 1)) return HALF_PI;
+            return 0.0f;
+        }
+
         public void GetDamage(int damage)
         {
             Health = (Health - damage < 0) ? 0 : Health - damage;
@@ -62,6 +73,15 @@ namespace Template.Game.gameObjects.interfaces
         public void SetNullDirection()
         {
             Direction = new Vector3(0, 0, 0);
+        }
+
+        public void ChangeYaw(float yaw)
+        {
+            Yaw = yaw;
+            //foreach(var meshObject in MeshObjects)
+            //{
+            //    meshObject.Yaw = yaw;
+            //}
         }
     }
 }

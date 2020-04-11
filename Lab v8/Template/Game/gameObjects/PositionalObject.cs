@@ -14,8 +14,8 @@ namespace Template
         public static readonly float HALF_PI = (float)Math.PI / 2.0f;
 
         protected Vector4 position;
-        public Vector4 Position { get => position; set => position = value; }
-        public float Yaw { get; set; }
+        public virtual Vector4 Position { get => position; set => position = value; }
+        public virtual float Yaw { get; set; }
         public float Pitch { get; set; }
         public float Roll { get; set; }
         public PositionalObject(Vector4 initialPosition)

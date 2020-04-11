@@ -1,5 +1,6 @@
 ﻿using SharpDX;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,12 +9,13 @@ using Template.Graphics;
 
 namespace Template.Game.gameObjects.newObjects
 {
-    public class Map : DrawableObject
+    public class Map : DrawableObject, IEnumerable<Map.Cell>
     {
         public struct Cell
         {
             public Vector4 Position;
             public Unit Unit;
+            public DrawableObject UtinObject;
         }
         public float CellSize { get; set; }
 
@@ -21,6 +23,25 @@ namespace Template.Game.gameObjects.newObjects
         public Cell this[Point point]
         {
             get => map[point.X, point.Y];
+            set => map[point.X, point.Y] = value;
+        }
+        public Cell? this[Vector4 position]
+        {
+            get
+            {
+                foreach (var cell in map)
+                {
+                    if (cell.Position == position) return cell;
+                }
+                return null;
+            }
+            set
+            {
+                for (int i = 0; i < Size.X; i++)
+                    for (int j = 0; j < Size.Y; j++)
+                        if (map[i, j].Position == position)
+                            map[i, j] = (Cell)value;
+            }
         }
         public Point Size { get; private set; }
         public Map(Vector4 initialPosition, Point size, float cellSize) : base(initialPosition)
@@ -33,6 +54,19 @@ namespace Template.Game.gameObjects.newObjects
         public void CheckIn(Point point, Unit unit)
         {
             map[point.X, point.Y].Unit = unit; 
+        }
+
+        public IEnumerator<Cell> GetEnumerator()
+        {
+            foreach(var cell in map)
+            {
+                yield return cell;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
