@@ -116,19 +116,10 @@ namespace Template
             _materials = loader.LoadMaterials("Resources\\materials.txt", _textures);
             List<MeshObject> meshes = loader.LoadMeshesFromObject("Resources\\PlagueDoctor.obj", _materials[3]);
 
-            //_meshObjects.AddRange(loader.LoadMeshesFromObject("Resources\\FloorObj.obj", _materials[2]));
+            //_meshObjects.AddRange(loader.LoadMeshesFromObject("Resources\\Bag.obj", _materials[2]));
             Vector3 initial = new Vector3(105f, 0, -105f);
             Vector4 pos = new Vector4(0, 0, 0, 0);
-            //for (int i = 0; i < 15; i ++)
-            //{
-            //    for (int j = 0; j < 15; j++)
-            //    {
-            //        pos = new Vector4(initial.X - j * 15, 0, initial.Z + i * 15, 0f);
-            //        List<MeshObject> meshObjects = loader.LoadMeshesFromObject("Resources\\FloorTile.obj", _materials[2]);
-            //        meshObjects.ForEach(e => e.Position = pos);
-            //        _meshObjects.AddRange(meshObjects);
-            //    }
-            //}
+
             InitHUDResources();
             InitializeLight();
             
@@ -220,8 +211,8 @@ namespace Template
             _illumination = new Illumination(Vector4.Zero, new Vector4(1.0f, 1.0f, 1.0f, 1.0f), new LightSource[]
             {
                 new LightSource(LightSource.LightType.DirectionalLight,
-                    new Vector4(0.0f, 20.0f, 0.0f, 1.0f),   // Position
-                    new Vector4(0.0f, -100.0f, 0.0f, 1.0f),   // Direction
+                    new Vector4(-40.0f, 10.0f, 0.0f, 1.0f),   // Position
+                    new Vector4(10.0f, -20.0f, 0.0f, 1.0f),   // Direction
                     new Vector4(1.0f, 1.0f, 1.0f, 1.0f),    // Color
                     0.0f,                                   // Spot angle
                     1.0f,                                   // Const atten

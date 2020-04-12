@@ -11,7 +11,7 @@ namespace Template
     /// Time helper measure current time, time increment from previous frame and FPS.
     /// </summary>
     /// <remarks>Call Update at begin of each frame.</remarks>
-    class TimeHelper
+    public class TimeHelper
     {
         /// <summary>Timer.</summary>
         private Stopwatch _stopWatch;

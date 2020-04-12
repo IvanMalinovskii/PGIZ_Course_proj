@@ -15,7 +15,7 @@ namespace Template.Game.gameObjects.newObjects
         {
             public Vector4 Position;
             public Unit Unit;
-            public DrawableObject UtinObject;
+            public DrawableObject UnitObject;
         }
         public float CellSize { get; set; }
 
@@ -54,6 +54,16 @@ namespace Template.Game.gameObjects.newObjects
         public void CheckIn(Point point, Unit unit)
         {
             map[point.X, point.Y].Unit = unit; 
+        }
+
+        public void CheckIn(Vector4 position, Unit unit)
+        {
+            this[position] = new Cell
+            {
+                Position = this[position].Value.Position,
+                Unit = unit,
+                UnitObject = this[position].Value.UnitObject
+            };
         }
 
         public IEnumerator<Cell> GetEnumerator()

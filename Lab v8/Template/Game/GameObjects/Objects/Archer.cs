@@ -18,9 +18,10 @@ namespace Template.Game.gameObjects.newObjects
         }
 
         // TODO: create an arrow class
-        public void Shoot()
+        public bool Shoot()
         {
             ArrowAmount = (ArrowAmount - 1 < 0) ? 0 : ArrowAmount - 1;
+            return ArrowAmount != 0;
         }
     }
 }

@@ -62,5 +62,10 @@ namespace Template.Game.gameObjects.newObjects
                 meshObject.Position = newPosition;
             }
         }
+        public void Render(Matrix view, Matrix projection)
+        {
+            foreach (var mesh in MeshObjects)
+                mesh.Render(view, projection);
+        }
     }
 }

@@ -44,6 +44,24 @@ namespace Template.Game.gameObjects.newServices
             }
         }
 
+        public void SetUpParameters(string type, AnimationHandler animationEndedHandler, List<object> parameters)
+        {
+            switch (type)
+            {
+                case "slide":
+                    slideAnimation.Parameters["targetPosition"] = parameters[0];
+                    slideAnimation.Parameters["offset"] = (Vector4)parameters[1];
+                    slideAnimation.AnimationEnded += animationEndedHandler;
+                    break;
+                case "rotation":
+                    rotationAnimation.Parameters["initialRotation"] = parameters[0];
+                    rotationAnimation.Parameters["targetRotation"] = parameters[1];
+                    rotationAnimation.Parameters["offset"] = 0.03f;
+                    rotationAnimation.AnimationEnded += animationEndedHandler;
+                    break;
+            }
+        }
+
         public void Animate(string type)
         {
             switch(type)

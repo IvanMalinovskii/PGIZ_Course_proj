@@ -12,21 +12,23 @@ namespace Template.Game.gameObjects.interfaces
     public abstract class Character : DrawableObject 
     {
         protected static readonly int MOVEMENT_ABILITY = 1;
+        protected static readonly int TURN_COUNT = 1;
         protected static readonly int HEALTH = 6;
-        protected static readonly int DAMAGE = 1;
+        //protected static readonly int DAMAGE = 1;
         public float Offset { get; set; }
         public bool IsActive { get; set; }
         public bool IsAlive { get; set; }
         public int Health { get; set; }
         public int MovementAbility { get; set; }
-        public int Damage { get; set; }
+        public int TurnCount { get; set; }
+        //public int Damage { get; set; }
         public Vector3 Direction { get; set; }
         public Character(Vector4 initialPosition) : base(initialPosition) 
         {
             Direction = new Vector3(0.0f, 0.0f, 0.0f);
             MovementAbility = MOVEMENT_ABILITY;
+            TurnCount = TURN_COUNT;
             Health = HEALTH;
-            Damage = DAMAGE;
             MeshObjects = new MeshObjects();
             IsAlive = true;
             IsActive = false;

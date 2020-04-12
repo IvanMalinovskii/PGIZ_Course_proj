@@ -28,6 +28,7 @@ namespace Template
             public Vector2 texCoord1;
         }
         public BoundingBox collider;
+        public bool IsVisible { get; set; }
         public string Name { get; set; }
         public bool IsCollider { get; set; }
         public int Index { get; set; }
@@ -75,6 +76,7 @@ namespace Template
             VertexDataStruct[] vertices, uint[] indexes, Material material) :
             base(initialPosition)
         {
+            IsVisible = true;
             Name = name;
             _directX3DGraphics = directX3DGraphics;
             _renderer = renderer;
@@ -104,6 +106,7 @@ namespace Template
 
         public virtual void Render(Matrix viewMatrix, Matrix projectionMatrix)
         {
+            if (!IsVisible) return;
             _renderer.UpdatePerObjectConstantBuffer(0, GetWorldMatrix(), viewMatrix, projectionMatrix);
             DeviceContext deviceContext = _directX3DGraphics.DeviceContext;
             _renderer.UpdateMaterialProperties(_material);

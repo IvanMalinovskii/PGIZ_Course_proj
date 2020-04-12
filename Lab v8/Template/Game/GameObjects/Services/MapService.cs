@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Template.Game.gameObjects.newObjects;
+using Template.Game.GameObjects.Objects;
+using Template.Game.GameObjects.Objects.PickUps;
 using Template.Graphics;
 using static Template.Game.gameObjects.newObjects.Map;
 
@@ -15,10 +17,12 @@ namespace Template.Game.gameObjects.newServices
     {
         private Map map;
         private ICharacterService characterService;
+        private List<PickUp> pickUps;
         public MapService(ICharacterService characterService, string configFile, Loader loader, Material stub)
         {
+            pickUps = new List<PickUp>();
             this.characterService = characterService;
-            map = new Map(Vector4.Zero, new Point(11, 17), 15);
+            map = new Map(Vector4.Zero, new Point(9, 9), 15);
             CreateField("Resources\\FloorTile.obj", loader, stub);
             this.characterService.Map = map;
             Cell characterCell = map[characterService.Character.Position].Value;
@@ -26,21 +30,17 @@ namespace Template.Game.gameObjects.newServices
             {
                 Position = characterCell.Position,
                 Unit = Unit.Archer,
-                UtinObject = characterService.Character
+                UnitObject = characterService.Character
             };
             map[characterService.Character.Position] = characterCell;
-
-            map[new Point(5, 6)] = new Cell
-            {
-                Position = map[new Point(5, 6)].Position,
-                Unit = Unit.Static,
-                UtinObject = null
-            };
+            SetPickUps(loader, stub);
         }
 
         public void Update()
         {
-
+            for (int i = 0; i < pickUps.Count; i++)
+                if (!pickUps[i].IsExist)
+                    pickUps.Remove(pickUps[i]);
         }
 
         public void Render(Matrix viewMatrix, Matrix projectionMatrix)
@@ -49,6 +49,7 @@ namespace Template.Game.gameObjects.newServices
             {
                 meshObject.Render(viewMatrix, projectionMatrix);
             }
+            pickUps.ForEach(p => { p.Yaw += 0.03f; p.Render(viewMatrix, projectionMatrix); });
         }
 
         private void CreateField(string fileName, Loader loader, Material stub)
@@ -68,10 +69,35 @@ namespace Template.Game.gameObjects.newServices
                     {
                         Position = position,
                         Unit = Unit.Empty,
-                        UtinObject = null
+                        UnitObject = null
                     };
                 }
             }
+        }
+
+        private void SetPickUps(Loader loader, Material stub)
+        {
+            SetPickUp("turn", new Point(4, 5), loader.LoadMeshesFromObject("Resources\\Moka.obj", stub));
+            SetPickUp("turn", new Point(4, 6), loader.LoadMeshesFromObject("Resources\\Shield.obj", stub));
+            SetPickUp("turn", new Point(4, 7), loader.LoadMeshesFromObject("Resources\\Quiver.obj", stub));
+        }
+
+        private void SetPickUp(string type, Point point, List<MeshObject> meshObjects)
+        {
+            Cell cell = map[point];
+            PickUp pickUp;
+            switch (type)
+            {
+                case "armor": pickUp = new MoreArmorItem(cell.Position); break;
+                case "arrow": pickUp = new MoreArrowsItem(cell.Position); break;
+                case "turn": pickUp = new MovementAbilityItem(cell.Position); break;
+                default: pickUp = null; break;
+            }
+            pickUp.AddMeshObjects(meshObjects);
+            cell.Unit = Unit.Item;
+            cell.UnitObject = pickUp;
+            pickUps.Add(pickUp);
+            map[point] = cell;
         }
     }
 }

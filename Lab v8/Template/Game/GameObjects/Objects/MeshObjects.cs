@@ -11,7 +11,7 @@ namespace Template.Graphics
     {
         private List<MeshObject> _objects;
         public int Count { get => _objects.Count; }
-        public MeshObject this[int index] { get { return _objects[index]; } }
+        public MeshObject this[int index] { get => _objects[index]; set => _objects[index] = value; }
         public MeshObject this[string name]
         {
             get

@@ -27,6 +27,7 @@ namespace Template.Game.Animations
                 return;
             }
             TargetObject.Position += (Vector4)Parameters["offset"];
+            Console.WriteLine($"Pos: {TargetObject.Position}, Target: {(Vector4)Parameters["targetPosition"]}");
         }
     }
 }

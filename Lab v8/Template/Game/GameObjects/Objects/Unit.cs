@@ -10,6 +10,7 @@ namespace Template.Game.gameObjects.newObjects
     {
         Empty,
         Archer,
+        Item,
         Enemy,
         Static
     }

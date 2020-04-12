@@ -20,7 +20,7 @@ using Material = Template.Graphics.Material;
 namespace Template
 {
     /// <summary>Load objects data from text files, material libraries from text files, textures from images.</summary>
-    class Loader
+    public class Loader
     {
         public Texture StubTexture { get; set; }
         private SamplerStates samplerState;
