@@ -15,5 +15,6 @@ namespace Template.Game.gameObjects.newServices
         Character Character { get; set; }
         void Update();
         void Render(Matrix viewMatrix, Matrix projectionMatrix);
+        void SetActive();
     }
 }

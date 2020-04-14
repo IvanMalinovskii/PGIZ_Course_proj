@@ -200,7 +200,7 @@ namespace Template
                 mesh.Render(_viewMatrix, _projectionMatrix);
             }
             //mainCharacterService.Update();
-            mainCharacterService.Render(_viewMatrix, _projectionMatrix);
+            //mainCharacterService.Render(_viewMatrix, _projectionMatrix);
             mapService.Render(_viewMatrix, _projectionMatrix);
             RenderHUD();
 
@@ -263,6 +263,7 @@ namespace Template
                                 cameraService.GetDebugString() + 
                                 "\n" + mainCharacterService.ToString()
                                 +"\n" +mainCharacterService.Character.Yaw
+                                +"\n" + mainCharacterService.Character.Health
                                 +"\n" + mapService.ToString();
             if (_displayHelp) text += "\n\n" + _helpString;
             float armorWidthInDIP = _directX2DGraphics.Bitmaps[_HUDResources.armorIconIndex].Size.Width;
@@ -286,7 +287,7 @@ namespace Template
             // Toggle fullscreen mode by F4, F5.
             if (_inputController.Func[3]) _directX3DGraphics.IsFullScreen = false;
             if (_inputController.Func[4]) _directX3DGraphics.IsFullScreen = true;
-            mainCharacterService.Update();
+            //mainCharacterService.Update();
             mapService.Update();
             cameraService.Update();
         }

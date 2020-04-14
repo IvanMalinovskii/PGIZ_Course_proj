@@ -23,6 +23,7 @@ namespace Template.Game.gameObjects.newServices
         private List<StaticObject> staticObjects;
         private List<ICharacterService> services;
         private InputController controller;
+        private Queue<ICharacterService> servicesQueue;
         public MapService(ICharacterService characterService, string configFile, Loader loader, Material stub, InputController controller)
         {
             this.controller = controller;
@@ -44,10 +45,25 @@ namespace Template.Game.gameObjects.newServices
             SetPickUps(loader, stub);
             SetStatics(loader, stub);
             SetEnemy("mile", new Point(0, 0), loader, stub);
+            servicesQueue = new Queue<ICharacterService>();
+            UpdateQueue();
         }
 
         public void Update()
         {
+            ICharacterService service = servicesQueue.Peek();
+            if (!service.Character.IsActive || !service.Character.IsAlive)
+            {
+                servicesQueue.Dequeue();
+                if (servicesQueue.Count != 0)
+                    servicesQueue.Peek().Character.IsActive = true;
+                else
+                    UpdateQueue();
+            }
+            else
+            {
+                service.Update();
+            }
             for (int i = 0; i < pickUps.Count; i++)
                 if (!pickUps[i].IsExist)
                     pickUps.Remove(pickUps[i]);
@@ -68,10 +84,16 @@ namespace Template.Game.gameObjects.newServices
                     cell.Unit = Unit.Empty;
                     cell.UnitObject = null;
                     map[services[i].Character.Position] = cell;
-                    services.Remove(services[i]);
+                    //services.Remove(services[i]);
                 }
-                else services[i].Update();
             }
+        }
+
+        private void UpdateQueue()
+        {
+            servicesQueue.Enqueue(characterService);
+            servicesQueue.Enqueue(services[0]);
+            servicesQueue.Peek().SetActive();
         }
 
         public void Render(Matrix viewMatrix, Matrix projectionMatrix)
@@ -83,6 +105,8 @@ namespace Template.Game.gameObjects.newServices
             pickUps.ForEach(p => { p.Render(viewMatrix, projectionMatrix); });
             staticObjects.ForEach(s => { s.Render(viewMatrix, projectionMatrix); });
             services.ForEach(s => { s.Render(viewMatrix, projectionMatrix); });
+            if (characterService.Character.IsAlive)
+                characterService.Render(viewMatrix, projectionMatrix);
         }
 
         private void CreateField(string fileName, Loader loader, Material stub)
@@ -159,11 +183,13 @@ namespace Template.Game.gameObjects.newServices
         {
             Cell cell = map[point];
             ICharacterService service;
+            
             switch (type)
             {
                 case "mile": service = new MileEnemyService(characterService.Character, "some", loader, stub, controller); break;
                 default: service = null; break;
             }
+            service.Character.IsActive = false;
             service.Map = map;
             service.Character.Position = cell.Position;
             cell.Unit = Unit.Empty;

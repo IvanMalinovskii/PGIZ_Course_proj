@@ -173,7 +173,6 @@
     <Compile Include="Game\GameObjects\Objects\StaticObject.cs" />
     <Compile Include="Game\GameObjects\Objects\Unit.cs" />
     <Compile Include="Game\GameObjects\Services\AnimationService.cs" />
-    <Compile Include="Game\GameObjects\Services\ArrowService.cs" />
     <Compile Include="Game\GameObjects\Services\ICharacterService.cs" />
     <Compile Include="Game\GameObjects\Services\MainCharacterService.cs" />
     <Compile Include="Game\GameObjects\Services\MapService.cs" />

@@ -26,29 +26,37 @@ namespace Template.Game.GameObjects.Objects
         {
             float horizontalDistance = position.Z - Target.Z;
             float verticalDistance = position.X - Target.X;
-            Console.WriteLine($"hor: {horizontalDistance} vert: {verticalDistance}");
+            
             SetDirection(horizontalDistance, verticalDistance);
+
+            Console.WriteLine($"hor: {horizontalDistance} vert: {verticalDistance}");
+            Console.WriteLine($"direction: {Direction}");
+
             return base.GetNewPosition();
         }
 
         private void SetDirection(float horizontalDistance, float verticalDistance)
         {
-            float z = (horizontalDistance < 0) ? -1 : 1;
+            float z = (horizontalDistance < 0) ? 1 : -1;
             float x = (verticalDistance < 0) ? 1 : -1; ;
             Vector3 direction = Vector3.Zero;
-            if (Math.Abs(horizontalDistance) < Math.Abs(verticalDistance))
+            if (verticalDistance != 0)
                 direction.X = x;
-            else if (Math.Abs(horizontalDistance) > Math.Abs(verticalDistance))
-                direction.Z = z;
             else
-            {
-                char axis = axises[random.Next(0, axises.Length - 1)];
-                if (axis == 'x')
-                    direction.X = x;
-                else
-                    direction.Z = z;
+                direction.Z = z;
+            //if (Math.Abs(horizontalDistance) < Math.Abs(verticalDistance))
+            //    direction.X = z;
+            //else if (Math.Abs(horizontalDistance) > Math.Abs(verticalDistance))
+            //    direction.Z = x;
+            //else
+            //{
+            //    char axis = axises[random.Next(0, axises.Length - 1)];
+            //    if (axis == 'x')
+            //        direction.X = x;
+            //    else
+            //        direction.Z = z;
 
-            }
+            //}
             Direction = direction;
         }
 

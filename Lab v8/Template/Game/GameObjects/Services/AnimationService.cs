@@ -16,6 +16,7 @@ namespace Template.Game.gameObjects.newServices
     {
         private Dictionary<string, SharpAudioVoice> voices;
         private Animation slideAnimation;
+        private Animation backSlideAnimation;
         private Animation rotationAnimation;
         private Character targetObject;
 
@@ -23,6 +24,7 @@ namespace Template.Game.gameObjects.newServices
         {
             this.targetObject = (Character)targetObject;
             slideAnimation = new SlideAnimation(targetObject);
+            backSlideAnimation = new SlideAnimation(targetObject);
             rotationAnimation = new RotationAnimation(targetObject, "yawRotation");
         }
 
@@ -59,6 +61,11 @@ namespace Template.Game.gameObjects.newServices
                     rotationAnimation.Parameters["offset"] = 0.03f;
                     rotationAnimation.AnimationEnded += animationEndedHandler;
                     break;
+                case "back_slide":
+                    backSlideAnimation.Parameters["targetPosition"] = parameters[0];
+                    backSlideAnimation.Parameters["offset"] = (Vector4)parameters[1];
+                    backSlideAnimation.AnimationEnded += animationEndedHandler;
+                    break;
             }
         }
 
@@ -72,6 +79,9 @@ namespace Template.Game.gameObjects.newServices
                 case "rotation":
                     RotationAnimation();
                     break;
+                case "back_slide":
+                    BackSlideAnimation();
+                    break;
             }
         }
         public void SlideAnimation()
@@ -82,6 +92,11 @@ namespace Template.Game.gameObjects.newServices
         public void RotationAnimation()
         {
             rotationAnimation.Animate();
+        }
+
+        public void BackSlideAnimation()
+        {
+            backSlideAnimation.Animate();
         }
     }
 }

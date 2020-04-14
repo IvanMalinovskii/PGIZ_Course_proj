@@ -26,7 +26,6 @@ namespace Template.Game.gameObjects.newServices
         private InputController controller;
         private Queue<string> animationQueue;
         private int turns;
-
         public Character Character { get => archer; set => archer = value as Archer; }
         private Map map;
         public Map Map { get => map; set
@@ -92,12 +91,17 @@ namespace Template.Game.gameObjects.newServices
             }
             arrow.MeshObjects[0].Render(viewMatrix, projectionMatrix);
         }
-
+        public void SetActive()
+        {
+            archer.IsActive = true;
+            turns = archer.TurnCount;
+        }
         public override string ToString()
         {
-            return $"Pointer's Yaw: {pointer.Yaw}";
+            return $"ARMOR: {archer.Health}\n" +
+                $"ARROWS: {archer.ArrowAmount}\n" +
+                $"TURNS: {archer.TurnCount}\n";
         }
-
         private void SetUpDirection()
         {
             if (controller[Key.W]) archer.Direction = new Vector3(1, 0, 0);
@@ -123,17 +127,11 @@ namespace Template.Game.gameObjects.newServices
             if (archer.Direction == Vector3.Zero) return;
             if (controller[Key.G]) { if (!CanMove()) return; Move(); }
             else if (controller[Key.F]) Shoot();
-            if (controller[Key.G] || controller[Key.F])
-            {
-                turns--;
-                turns = (turns <= 0)? 0 : turns;
-                archer.IsActive = (turns == 0) ? false : true;
-            }
             
         }
         private void Move()
         {            
-            Map.CheckIn(archer.Position, Unit.Empty);
+            Map.CheckIn(archer.Position, Unit.Empty, null);
             Vector4 newPos = archer.GetNewPosition();
             isAnimation = true;
             animationQueue.Enqueue("archer_rotation");
@@ -144,10 +142,14 @@ namespace Template.Game.gameObjects.newServices
                 {
                     ((PickUp)Map[newPos].Value.UnitObject).ChangeStates(archer);
                 }
+                Map.CheckIn(newPos, Unit.Archer, Character);
                 animationQueue.Dequeue();
                 isAnimation = false;
                 arrow.Position = archer.Position;
                 archer.Direction = Vector3.Zero;
+                turns--;
+                turns = (turns <= 0) ? 0 : turns;
+                archer.IsActive = (turns == 0) ? false : true;
             });
             
         }
@@ -177,7 +179,11 @@ namespace Template.Game.gameObjects.newServices
                 arrow.MeshObjects[0].IsVisible = false; 
                 arrow.Position = archer.Position; 
                 isAnimation = false; 
-                archer.Direction = Vector3.Zero; },
+                archer.Direction = Vector3.Zero;
+                turns--;
+                turns = (turns <= 0) ? 0 : turns;
+                archer.IsActive = (turns == 0) ? false : true;
+            },
                 new List<object> { arrow.Position, (Vector4)arrow.Direction * 3.0f});
             arrow.Position = initialPosition;
         }

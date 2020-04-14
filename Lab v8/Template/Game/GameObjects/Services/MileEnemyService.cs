@@ -84,20 +84,21 @@ namespace Template.Game.GameObjects.Services
                 });
                     
             }
+            Console.WriteLine($"UNIT: {map[newPosition].Value.Unit}");
             if (map[newPosition].Value.Unit == Unit.Empty || map[newPosition].Value.Unit == Unit.Item)
                 Walk(newPosition);
-            else if (map[newPosition].Value.Unit == Unit.Static)
-                ((StaticObject)map[newPosition].Value.UnitObject).GetDamage(enemy.Damage);
-            else if (map[newPosition].Value.Unit == Unit.Archer)
-                ((Character)map[newPosition].Value.UnitObject).GetDamage(enemy.Damage);
-            turns--;
-            turns = (turns <= 0) ? 0 : turns;
-            enemy.IsActive = (turns == 0) ? false : true;
+            else if (map[newPosition].Value.Unit == Unit.Static || map[newPosition].Value.Unit == Unit.Archer)
+                Attack(map[newPosition].Value.UnitObject);
+            
         }
-
+        public void SetActive()
+        {
+            enemy.IsActive = true;
+            turns = enemy.TurnCount;
+        }
         private void Walk(Vector4 newPos)
         {
-            Map.CheckIn(enemy.Position, Unit.Empty);
+            Map.CheckIn(enemy.Position, Unit.Empty, null);
             isAnimation = true;
             animationQueue.Enqueue("rotation");
             animationQueue.Enqueue("slide");
@@ -107,9 +108,44 @@ namespace Template.Game.GameObjects.Services
                 {
                     ((PickUp)Map[newPos].Value.UnitObject).Destroy();
                 }
+                Map.CheckIn(newPos, Unit.Empty, Character);
                 animationQueue.Dequeue();
                 isAnimation = false;
+                turns--;
+                turns = (turns <= 0) ? 0 : turns;
+                enemy.IsActive = (turns == 0) ? false : true;
             }, new List<object> { newPos, (Vector4)enemy.Direction });
+        }
+
+        private void Attack(DrawableObject target)
+        {
+            isAnimation = true;
+            Vector4 initialPos = enemy.Position;
+            //Console.WriteLine($"POS: {initialPos}, ENEMY_POS: {target.Position}");
+            //Console.WriteLine($"DIR: {enemy.Direction}, -DIR: {-enemy.Direction}");
+            animationQueue.Enqueue("rotation");
+            animationQueue.Enqueue("slide");
+            animationQueue.Enqueue("back_slide");
+            enemyAnimationService.SetUpParameters("rotation", (s, e) =>
+            {
+                animationQueue.Dequeue();
+            });
+            enemyAnimationService.SetUpParameters("slide", (s, e) =>
+            {
+                animationQueue.Dequeue();
+            }, new List<object> { target.Position, (Vector4)enemy.Direction * 1.0f });
+            enemyAnimationService.SetUpParameters("back_slide", (s, e) =>
+            {
+                animationQueue.Dequeue();
+                isAnimation = false;
+                if (target is StaticObject)
+                    ((StaticObject)target).GetDamage(enemy.Damage);
+                else if (target is Character)
+                    ((Character)target).GetDamage(enemy.Damage);
+                turns--;
+                turns = (turns <= 0) ? 0 : turns;
+                enemy.IsActive = (turns == 0) ? false : true;
+            }, new List<object> { initialPos, (Vector4)enemy.Direction * -1.0f });
         }
 
         public override string ToString()

@@ -56,13 +56,13 @@ namespace Template.Game.gameObjects.newObjects
             map[point.X, point.Y].Unit = unit; 
         }
 
-        public void CheckIn(Vector4 position, Unit unit)
+        public void CheckIn(Vector4 position, Unit unit, DrawableObject unitObject)
         {
             this[position] = new Cell
             {
                 Position = this[position].Value.Position,
                 Unit = unit,
-                UnitObject = this[position].Value.UnitObject
+                UnitObject = unitObject
             };
         }
 
