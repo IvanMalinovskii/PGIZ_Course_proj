@@ -121,18 +121,18 @@ namespace Template.Game.gameObjects.newServices
         private void DoAction()
         {
             if (archer.Direction == Vector3.Zero) return;
+            if (controller[Key.G]) { if (!CanMove()) return; Move(); }
+            else if (controller[Key.F]) Shoot();
             if (controller[Key.G] || controller[Key.F])
             {
                 turns--;
                 turns = (turns <= 0)? 0 : turns;
                 archer.IsActive = (turns == 0) ? false : true;
             }
-            if (controller[Key.G]) Move();
-            else if (controller[Key.F]) Shoot();
+            
         }
         private void Move()
-        {
-            if (!CanMove()) return;
+        {            
             Map.CheckIn(archer.Position, Unit.Empty);
             Vector4 newPos = archer.GetNewPosition();
             isAnimation = true;
@@ -166,10 +166,13 @@ namespace Template.Game.gameObjects.newServices
                 if (!Map[arrow.Position].HasValue || (Map[arrow.Position].Value.Unit != Unit.Empty && Map[arrow.Position].Value.Unit != Unit.Item))
                     break;
             }
+            Vector4 targetPosition = arrow.Position;
             animationQueue.Enqueue("archer_rotation");
             animationQueue.Enqueue("arrow_slide");
             archerAnimationService.SetUpParameters("rotation", (s, e) => { animationQueue.Dequeue(); arrow.MeshObjects[0].IsVisible = true; });
             ArrowAnimationService.SetUpParameters("slide", (s, e) => {
+                if (Map[targetPosition].HasValue && Map[targetPosition].Value.Unit == Unit.Static)
+                    ((StaticObject)Map[targetPosition].Value.UnitObject).GetDamage(arrow.Damage);
                 animationQueue.Dequeue(); 
                 arrow.MeshObjects[0].IsVisible = false; 
                 arrow.Position = archer.Position; 

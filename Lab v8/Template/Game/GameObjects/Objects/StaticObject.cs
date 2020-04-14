@@ -16,6 +16,7 @@ namespace Template.Game.gameObjects.newObjects
         public bool IsAlive { get; set; }
         public StaticObject(Vector4 initialPosition) : base(initialPosition)
         {
+            IsAlive = true;
             Armor = ARMOR;
             IsDestroyable = true;
         }
@@ -24,6 +25,9 @@ namespace Template.Game.gameObjects.newObjects
         {
             Armor = (Armor - damage < 0) ? 0 : Armor - damage;
             if (Armor == 0) IsAlive = false;
+            //if (!IsAlive)
+            //    foreach (var meshObject in MeshObjects)
+            //        meshObject.IsVisible = false;
         }
     }
 }

@@ -29,6 +29,7 @@ namespace Template
         }
         public BoundingBox collider;
         public bool IsVisible { get; set; }
+        public bool IsMoveable { get; set; }
         public string Name { get; set; }
         public bool IsCollider { get; set; }
         public int Index { get; set; }
@@ -76,6 +77,7 @@ namespace Template
             VertexDataStruct[] vertices, uint[] indexes, Material material) :
             base(initialPosition)
         {
+            IsMoveable = true;
             IsVisible = true;
             Name = name;
             _directX3DGraphics = directX3DGraphics;

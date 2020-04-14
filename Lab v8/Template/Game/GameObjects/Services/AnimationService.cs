@@ -32,13 +32,13 @@ namespace Template.Game.gameObjects.newServices
             {
                 case "slide":
                     slideAnimation.Parameters["targetPosition"] = targetObject.GetNewPosition();
-                    slideAnimation.Parameters["offset"] = (Vector4)targetObject.Direction * 0.5f;
+                    slideAnimation.Parameters["offset"] = (Vector4)targetObject.Direction * 1.0f;
                     slideAnimation.AnimationEnded += animationEndedHandler;
                     break;
                 case "rotation":
                     rotationAnimation.Parameters["initialRotation"] = targetObject.Yaw;
                     rotationAnimation.Parameters["targetRotation"] = targetObject.GetNewYawRotation();
-                    rotationAnimation.Parameters["offset"] = 0.03f;
+                    rotationAnimation.Parameters["offset"] = 0.06f;
                     rotationAnimation.AnimationEnded += animationEndedHandler;
                     break;
             }

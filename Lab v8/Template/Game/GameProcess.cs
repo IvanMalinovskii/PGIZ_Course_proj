@@ -129,7 +129,7 @@ namespace Template
             //archer.AddMeshObjects(meshes);
             mainCharacterService = new MainCharacterService("some", _inputController, loader, _materials[3], _timeHelper);
             //mainCharacterService.AddMeshObjects(meshes);
-            mapService = new MapService(mainCharacterService, "some", loader, _materials[3]);
+            mapService = new MapService(mainCharacterService, "some", loader, _materials[3], _inputController);
             
             cameraService = new CameraService(new Camera(new Vector4(-116.0f, 84.0f, 0.0f, 1.0f)), _inputController);
             
@@ -199,6 +199,7 @@ namespace Template
                 //mesh.Yaw = angle1;
                 mesh.Render(_viewMatrix, _projectionMatrix);
             }
+            //mainCharacterService.Update();
             mainCharacterService.Render(_viewMatrix, _projectionMatrix);
             mapService.Render(_viewMatrix, _projectionMatrix);
             RenderHUD();
@@ -261,7 +262,8 @@ namespace Template
                                 //$"Pos: {_character.Position.X,6:f1}, {_character.Position.Y,6:f1}, {_character.Position.Z,6:f1}\n" +
                                 cameraService.GetDebugString() + 
                                 "\n" + mainCharacterService.ToString()
-                                +"\n" +mainCharacterService.Character.Yaw;
+                                +"\n" +mainCharacterService.Character.Yaw
+                                +"\n" + mapService.ToString();
             if (_displayHelp) text += "\n\n" + _helpString;
             float armorWidthInDIP = _directX2DGraphics.Bitmaps[_HUDResources.armorIconIndex].Size.Width;
             float armorHeightInDIP = _directX2DGraphics.Bitmaps[_HUDResources.armorIconIndex].Size.Height;
@@ -285,6 +287,7 @@ namespace Template
             if (_inputController.Func[3]) _directX3DGraphics.IsFullScreen = false;
             if (_inputController.Func[4]) _directX3DGraphics.IsFullScreen = true;
             mainCharacterService.Update();
+            mapService.Update();
             cameraService.Update();
         }
 

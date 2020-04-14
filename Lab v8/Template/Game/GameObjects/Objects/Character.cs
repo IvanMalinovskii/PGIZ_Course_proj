@@ -39,12 +39,12 @@ namespace Template.Game.gameObjects.interfaces
             MoveByDirection(1);
         }
 
-        public void MoveByDirection(float offset)
+        public virtual void MoveByDirection(float offset)
         {
             Position = GetNewPosition(offset);
         }
 
-        public Vector4 GetNewPosition()
+        public virtual Vector4 GetNewPosition()
         {
             return GetNewPosition(Offset);
         }
@@ -66,7 +66,7 @@ namespace Template.Game.gameObjects.interfaces
             return 0.0f;
         }
 
-        public void GetDamage(int damage)
+        public virtual void GetDamage(int damage)
         {
             Health = (Health - damage < 0) ? 0 : Health - damage;
             if (Health == 0) IsAlive = false;

@@ -18,8 +18,8 @@ namespace Template.Game.GameObjects.Objects.PickUps
         public override void ChangeStates(Archer character)
         {
             character.TurnCount = Up;
-            foreach (var meshObject in MeshObjects)
-                meshObject.IsVisible = false;
+            //foreach (var meshObject in MeshObjects)
+            //    meshObject.IsVisible = false;
             IsExist = false;
         }
     }

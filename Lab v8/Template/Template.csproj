@@ -161,6 +161,7 @@
     <Compile Include="Game\GameObjects\Objects\Arrow.cs" />
     <Compile Include="Game\GameObjects\Objects\Camera.cs" />
     <Compile Include="Game\GameObjects\Objects\Character.cs" />
+    <Compile Include="Game\GameObjects\Objects\MileEnemy.cs" />
     <Compile Include="Game\GameObjects\Objects\MovingObject.cs" />
     <Compile Include="Game\GameObjects\Objects\Archer.cs" />
     <Compile Include="Game\GameObjects\Objects\DrawableObject.cs" />
@@ -177,6 +178,7 @@
     <Compile Include="Game\GameObjects\Services\MainCharacterService.cs" />
     <Compile Include="Game\GameObjects\Services\MapService.cs" />
     <Compile Include="Game\GameObjects\Services\CameraService.cs" />
+    <Compile Include="Game\GameObjects\Services\MileEnemyService.cs" />
     <Compile Include="Graphics\DirectX2DGraphics.cs" />
     <Compile Include="Graphics\DirectX3DGraphics.cs" />
     <Compile Include="Game\GameProcess.cs" />

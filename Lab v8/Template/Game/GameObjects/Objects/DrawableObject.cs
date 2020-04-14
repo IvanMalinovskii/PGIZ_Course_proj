@@ -17,6 +17,7 @@ namespace Template.Game.gameObjects.newObjects
                 base.Position = value;
                 foreach(var meshObject in MeshObjects)
                 {
+                    if (!meshObject.IsMoveable) continue;
                     meshObject.Position = value;
                 }
             }
@@ -62,7 +63,7 @@ namespace Template.Game.gameObjects.newObjects
                 meshObject.Position = newPosition;
             }
         }
-        public void Render(Matrix view, Matrix projection)
+        public virtual void Render(Matrix view, Matrix projection)
         {
             foreach (var mesh in MeshObjects)
                 mesh.Render(view, projection);
