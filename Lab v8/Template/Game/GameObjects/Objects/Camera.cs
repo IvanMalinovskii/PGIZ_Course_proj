@@ -70,8 +70,8 @@ namespace Template
         /// <returns>Projection matrix.</returns>
         public Matrix GetProjectionMatrix(float width, float height)
         {
-            //return Matrix.OrthoLH(width / Scale, height / Scale, 0, 1000);
-            return Matrix.PerspectiveFovLH(FOVY, _aspect, 0.1f, 1000.0f);
+            return Matrix.OrthoLH(width / Scale, height / Scale, 0, 1000);
+            //return Matrix.PerspectiveFovLH(FOVY, _aspect, 0.1f, 1000.0f);
             //return Matrix.OrthoOffCenterLH(-15, 15, -15, 15, 0.1f, 100);
         }
 

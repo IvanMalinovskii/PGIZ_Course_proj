@@ -9,7 +9,7 @@ using Template.Game.gameObjects.newObjects;
 
 namespace Template.Game.gameObjects.newServices
 {
-    interface ICharacterService
+    public interface ICharacterService : IDisposable
     {
         Map Map { get; set; }
         Character Character { get; set; }

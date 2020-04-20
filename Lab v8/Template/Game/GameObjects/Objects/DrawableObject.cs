@@ -8,7 +8,7 @@ using Template.Graphics;
 
 namespace Template.Game.gameObjects.newObjects
 {
-    public abstract class DrawableObject : PositionalObject
+    public class DrawableObject : PositionalObject
     {
         public override Vector4 Position { 
             get => base.Position; 
@@ -21,6 +21,11 @@ namespace Template.Game.gameObjects.newObjects
                     meshObject.Position = value;
                 }
             }
+        }
+
+        public void SetRawPosition(Vector4 position)
+        {
+            base.Position = position;
         }
 
         public override float Yaw 

@@ -17,6 +17,7 @@ namespace Template.Game.gameObjects.newObjects
             public Unit Unit;
             public DrawableObject UnitObject;
         }
+        public bool IsClear { get; set; }
         public float CellSize { get; set; }
 
         private Cell[,] map;
@@ -46,7 +47,7 @@ namespace Template.Game.gameObjects.newObjects
         public Point Size { get; private set; }
         public Map(Vector4 initialPosition, Point size, float cellSize) : base(initialPosition)
         {
-            map = new Cell[size.X, size.Y];
+            map = new Cell[size.X + 1, size.Y];
             CellSize = cellSize;
             Size = size;
         }

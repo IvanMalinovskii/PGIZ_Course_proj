@@ -12,6 +12,8 @@ namespace Template.Game.gameObjects.newObjects
         Archer,
         Item,
         Enemy,
-        Static
+        Static,
+        Door,
+        None
     }
 }

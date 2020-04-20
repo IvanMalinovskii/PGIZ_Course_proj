@@ -17,6 +17,7 @@ namespace Template.Game.GameObjects.Objects
         public MileEnemy(Vector4 initialPosition) : base(initialPosition)
         {
             Damage = 2;
+            Health = 3;
             random = new Random();
             axises = new char[] { 'x', 'z' };
             Target = Vector4.Zero;

@@ -85,6 +85,7 @@ namespace Template.Sound
                     Thread.Sleep(10);
                 }
                 _voice.Stop();
+                _voice.FlushSourceBuffers();
                 isPlaying = false;
                 Stopped.Invoke(this);
             }
@@ -100,7 +101,9 @@ namespace Template.Sound
         public void Stop()
         {
             if (!isPlaying) return;
+            _voice.ExitLoop();
             _voice.Stop();
+            _voice.FlushSourceBuffers();
             isPlaying = false;
             _checkThread.Abort();
         }

@@ -82,6 +82,9 @@ namespace Template.Game.gameObjects.newServices
                 case "back_slide":
                     BackSlideAnimation();
                     break;
+                case "scene":
+                    ((SlideAnimation)slideAnimation).AnimateComplex();
+                    break;
             }
         }
         public void SlideAnimation()

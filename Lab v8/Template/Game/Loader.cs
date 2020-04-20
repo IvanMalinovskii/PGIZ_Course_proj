@@ -28,9 +28,14 @@ namespace Template
         private DirectX2DGraphics _directX2DGraphics;
         private Renderer _renderer;
         private ImagingFactory _imagingFactory;
+        private Dictionary<string, Texture> textures;
+        private Dictionary<string, Material> materials;
 
         public Loader(DirectX3DGraphics directX3DGraphics, DirectX2DGraphics directX2DGraphics, Renderer renderer, ImagingFactory imagingFactory)
         {
+            materials = new Dictionary<string, Material>();
+            textures = new Dictionary<string, Texture>();
+
             _directX3DGraphics = directX3DGraphics;
             _directX2DGraphics = directX2DGraphics;
             _renderer = renderer;
@@ -122,10 +127,13 @@ namespace Template
             if (generateMip) _directX3DGraphics.DeviceContext.GenerateMips(shaderResourceView);
 
             Utilities.Dispose(ref imageFormatConverter);
+            string[] path = fileName.Split('\\');
+            fileName = path[path.Length - 1];
 
-            fileName = fileName.Split('\\')[1];
+            Texture texture = new Texture(textureObject, shaderResourceView, width, height, fileName, samplerState);
+            textures.Add(texture.Name, texture);
 
-            return new Texture(textureObject, shaderResourceView, width, height, fileName, samplerState);
+            return texture;
         }
 
         public Materials LoadMaterials(string materialFileName, Textures textures)
@@ -228,8 +236,8 @@ namespace Template
             Material material = null;
             if (str.IndexOf("material:") != 0) return null;
             else material = materials[str.Split(':')[1].Trim()];
-
-            objectFileName = objectFileName.Split('\\')[1];
+            string[] path = objectFileName.Split('\\');
+            objectFileName = path[path.Length - 1];
 
             MeshObject meshObject = new MeshObject(objectFileName, _directX3DGraphics, _renderer,
                 new Vector4(0.0f),
@@ -287,7 +295,14 @@ namespace Template
                 vertices[count - 3] = vertices[count - 2];
                 vertices[count - 2] = tempVertex;
             }
-            Material targetMaterial = (group.Material == null) ? material : GetMaterial(group.Material);
+            Material targetMaterial = null;
+            string[] path = group.Material.Name.Split('\\');
+            string matName = path[path.Length - 1];
+            if (group.Material != null)
+            {
+                if (materials.ContainsKey(matName)) targetMaterial = materials[matName];
+                else targetMaterial = GetMaterial(group.Material);
+            }
             Console.WriteLine($"target mat: {targetMaterial.Name}");
             return new MeshObject(group.Name, _directX3DGraphics, _renderer,
                 new Vector4(0.0f),
@@ -297,10 +312,22 @@ namespace Template
         public Material GetMaterial(ObjLoader.Loader.Data.Material material)
         {
             bool isTextured = string.IsNullOrEmpty(material.AmbientTextureMap) ? false : true;
-            Texture texture = string.IsNullOrEmpty(material.AmbientTextureMap) 
-                ? StubTexture : LoadTextureFromFile(material.AmbientTextureMap, false, samplerState.Textured);
+            Texture texture = null;
+            string[] path = material.AmbientTextureMap.Split('\\');
+            string textureName = path[path.Length - 1];
+            if (!string.IsNullOrEmpty(textureName))
+            {
+                if (textures.ContainsKey(textureName)) texture = textures[textureName];
+                else texture = LoadTextureFromFile(material.AmbientTextureMap, false, samplerState.Textured);
+            }
+            //string.IsNullOrEmpty(material.AmbientTextureMap) 
+             //   ? StubTexture : LoadTextureFromFile(material.AmbientTextureMap, false, samplerState.Textured);
             Console.WriteLine($"isText: {isTextured}; texture: {texture}");
-            return new Material(material.Name,
+
+            string[] mPath = material.Name.Split('\\');
+            string matName = mPath[mPath.Length - 1];
+
+            Material resultMaterial = new Material(matName,
                 new Vector4(0, 0, 0, 1.0f),
                 GetFromVec3(material.AmbientColor),
                 GetFromVec3(material.DiffuseColor),
@@ -308,6 +335,9 @@ namespace Template
                 material.SpecularCoefficient,
                 isTextured,
                 texture);
+
+            materials.Add(resultMaterial.Name, resultMaterial);
+            return resultMaterial;
         }
 
         public Vector4 GetFromVec3(Vec3 vec3)

@@ -9,11 +9,13 @@ using Template.Game.gameObjects.newObjects;
 using Template.Game.gameObjects.newServices;
 using Template.Game.GameObjects.Objects;
 using Template.Graphics;
+using Template.Sound;
 
 namespace Template.Game.GameObjects.Services
 {
     class MileEnemyService : ICharacterService
     {
+        private Dictionary<string, SharpAudioVoice> voices;
         private AnimationService enemyAnimationService;
         private InputController controller;
         private bool isAnimation;
@@ -34,8 +36,10 @@ namespace Template.Game.GameObjects.Services
         }
         public Character Character { get => enemy; set => enemy = value as MileEnemy; }
 
-        public MileEnemyService(Character target, string configFile, Loader loader, Material stub, InputController controller)
+        public MileEnemyService(Character target, string meshFile, Loader loader, Material stub, InputController controller, SharpAudioDevice device)
         {
+            voices = new Dictionary<string, SharpAudioVoice>();
+            SetVoices(device);
             directions = new List<Point>
             {
                 new Point(1,0),
@@ -48,10 +52,18 @@ namespace Template.Game.GameObjects.Services
             animationQueue = new Queue<string>();
             isAnimation = false;
             enemy = new MileEnemy(Vector4.Zero);
-            enemy.AddMeshObjects(loader.LoadMeshesFromObject("Resources\\Werewolf.obj", stub));
+            enemy.AddMeshObjects(loader.LoadMeshesFromObject(meshFile, stub));
             turns = enemy.TurnCount;
             enemyAnimationService = new AnimationService(enemy, new Sound.SharpAudioDevice());
             enemy.IsActive = true;
+        }
+
+        private void SetVoices(SharpAudioDevice device)
+        {
+            voices.Add("slide", new SharpAudioVoice(device, "Resources\\Audio\\slide.wav"));
+            voices.Add("mileAttack", new SharpAudioVoice(device, "Resources\\Audio\\mileAttack.wav"));
+            voices.Add("boxDestroy", new SharpAudioVoice(device, "Resources\\Audio\\boxDestroy.wav"));
+            voices.Add("characterHit", new SharpAudioVoice(device, "Resources\\Audio\\characterHit.wav"));
         }
 
         public void Render(Matrix viewMatrix, Matrix projectionMatrix)
@@ -102,13 +114,15 @@ namespace Template.Game.GameObjects.Services
             isAnimation = true;
             animationQueue.Enqueue("rotation");
             animationQueue.Enqueue("slide");
-            enemyAnimationService.SetUpParameters("rotation", (s, e) => { animationQueue.Dequeue(); });
+            voices["slide"].Play();
+            enemyAnimationService.SetUpParameters("rotation", (s, e) => { animationQueue.Dequeue(); voices["slide"].Stop(); voices["slide"].Play(); });
             enemyAnimationService.SetUpParameters("slide", (s, e) => {
                 if (Map[newPos].Value.Unit == Unit.Item)
                 {
                     ((PickUp)Map[newPos].Value.UnitObject).Destroy();
+                    voices["boxDestroy"].Play();
                 }
-                Map.CheckIn(newPos, Unit.Empty, Character);
+                Map.CheckIn(newPos, Unit.Enemy, Character);
                 animationQueue.Dequeue();
                 isAnimation = false;
                 turns--;
@@ -126,22 +140,32 @@ namespace Template.Game.GameObjects.Services
             animationQueue.Enqueue("rotation");
             animationQueue.Enqueue("slide");
             animationQueue.Enqueue("back_slide");
+            
             enemyAnimationService.SetUpParameters("rotation", (s, e) =>
             {
                 animationQueue.Dequeue();
+                voices["mileAttack"].Play();
             });
             enemyAnimationService.SetUpParameters("slide", (s, e) =>
             {
+
                 animationQueue.Dequeue();
             }, new List<object> { target.Position, (Vector4)enemy.Direction * 1.0f });
             enemyAnimationService.SetUpParameters("back_slide", (s, e) =>
             {
+                voices["mileAttack"].Stop();
                 animationQueue.Dequeue();
                 isAnimation = false;
                 if (target is StaticObject)
+                {
                     ((StaticObject)target).GetDamage(enemy.Damage);
+                    voices["boxDestroy"].Play();
+                }
                 else if (target is Character)
+                {
                     ((Character)target).GetDamage(enemy.Damage);
+                    voices["characterHit"].Play();
+                }
                 turns--;
                 turns = (turns <= 0) ? 0 : turns;
                 enemy.IsActive = (turns == 0) ? false : true;
@@ -151,6 +175,12 @@ namespace Template.Game.GameObjects.Services
         public override string ToString()
         {
             return $"Pso: {enemy.Position} \nTarget: {enemy.Target}";
+        }
+
+        public void Dispose()
+        {
+            for (int i = 0; i < voices.Values.Count; i++)
+                voices.ElementAt(i).Value.Dispose();
         }
     }
 }

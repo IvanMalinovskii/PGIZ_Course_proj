@@ -9,7 +9,7 @@ using Template.Graphics;
 
 namespace Template.Game.gameObjects.interfaces
 {
-    public abstract class Character : DrawableObject 
+    public class Character : DrawableObject 
     {
         protected static readonly int MOVEMENT_ABILITY = 1;
         protected static readonly int TURN_COUNT = 1;
@@ -44,6 +44,11 @@ namespace Template.Game.gameObjects.interfaces
             Position = GetNewPosition(offset);
         }
 
+        internal void SetDefault()
+        {
+            TurnCount = TURN_COUNT;         
+        }
+
         public virtual Vector4 GetNewPosition()
         {
             return GetNewPosition(Offset);
@@ -69,7 +74,10 @@ namespace Template.Game.gameObjects.interfaces
         public virtual void GetDamage(int damage)
         {
             Health = (Health - damage < 0) ? 0 : Health - damage;
-            if (Health == 0) IsAlive = false;
+            if (Health == 0)
+            {
+                IsAlive = false;
+            }
         }
 
         public void SetNullDirection()

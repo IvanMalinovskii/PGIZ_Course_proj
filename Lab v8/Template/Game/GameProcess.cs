@@ -18,6 +18,7 @@ using Template.Game.Services;
 using Template.Sound;
 using Template.Game.gameObjects.newServices;
 using Template.Game.gameObjects.newObjects;
+using Template.Game.GameObjects.Services;
 
 namespace Template
 {
@@ -27,7 +28,8 @@ namespace Template
         {
             public int textFPSTextFormatIndex;
             public int textFPSBrushIndex;
-            public int armorIconIndex;
+            public int heartIconIndex;
+            public int arrowIconIndex;
         }
         private CameraService cameraService;
         /// <summary>Main form of application.</summary>
@@ -78,7 +80,8 @@ namespace Template
         /// <summary>First run flag for create DirectX buffers before render in first time.</summary>
         private bool _firstRun = true;
         private MainCharacterService mainCharacterService;
-        private MapService mapService;
+        //private MapService mapService;
+        private LevelService levelService;
         /// <summary>Init HUD resources.</summary>
         /// <remarks>Create text format, text brush and armor icon.</remarks>
         private void InitHUDResources()
@@ -87,7 +90,8 @@ namespace Template
                 SharpDX.DirectWrite.FontStyle.Normal, SharpDX.DirectWrite.FontStretch.Normal, 12,
                 SharpDX.DirectWrite.TextAlignment.Leading, SharpDX.DirectWrite.ParagraphAlignment.Near);
             _HUDResources.textFPSBrushIndex = _directX2DGraphics.NewSolidColorBrush(new SharpDX.Mathematics.Interop.RawColor4(1.0f, 1.0f, 0.0f, 1.0f));
-            _HUDResources.armorIconIndex = _directX2DGraphics.LoadBitmapFromFile("Resources\\armor.bmp");  // Don't use before Resizing. Bitmaps loaded, but not created.
+            _HUDResources.heartIconIndex = _directX2DGraphics.LoadBitmapFromFile("Resources\\heart.png");
+            _HUDResources.arrowIconIndex = _directX2DGraphics.LoadBitmapFromFile("Resources\\arrow.png");
         }
         /// <summary>
         /// Constructor. Initialize all objects.
@@ -127,10 +131,14 @@ namespace Template
 
             //Archer archer = new Archer(new Vector4(0, 0, 0, 0));
             //archer.AddMeshObjects(meshes);
-            mainCharacterService = new MainCharacterService("some", _inputController, loader, _materials[3], _timeHelper);
+            mainCharacterService = new MainCharacterService("some", _inputController, loader, _materials[3], _timeHelper, new SharpAudioDevice());
             //mainCharacterService.AddMeshObjects(meshes);
-            mapService = new MapService(mainCharacterService, "some", loader, _materials[3], _inputController);
-            
+            //mapService = new MapService(mainCharacterService, "Resources\\Description\\map1.txt", loader, _materials[3], _inputController, new SharpAudioDevice());
+            Queue<string> files = new Queue<string>();
+            files.Enqueue("Resources\\Description\\map1.txt");
+            files.Enqueue("Resources\\Description\\map1.txt");
+            levelService = new LevelService(files, mainCharacterService, loader, _materials[2], _inputController, new SharpAudioDevice());
+
             cameraService = new CameraService(new Camera(new Vector4(-116.0f, 84.0f, 0.0f, 1.0f)), _inputController);
             
             Vector4 initialPosition = new Vector4(20.5f, 1f, 20.5f, 1);
@@ -201,7 +209,7 @@ namespace Template
             }
             //mainCharacterService.Update();
             //mainCharacterService.Render(_viewMatrix, _projectionMatrix);
-            mapService.Render(_viewMatrix, _projectionMatrix);
+            levelService.Render(_viewMatrix, _projectionMatrix);
             RenderHUD();
 
             _renderer.EndRender();
@@ -263,18 +271,41 @@ namespace Template
                                 cameraService.GetDebugString() + 
                                 "\n" + mainCharacterService.ToString()
                                 +"\n" +mainCharacterService.Character.Yaw
-                                +"\n" + mainCharacterService.Character.Health
-                                +"\n" + mapService.ToString();
+                                +"\n" + mainCharacterService.Character.Health;
             if (_displayHelp) text += "\n\n" + _helpString;
-            float armorWidthInDIP = _directX2DGraphics.Bitmaps[_HUDResources.armorIconIndex].Size.Width;
-            float armorHeightInDIP = _directX2DGraphics.Bitmaps[_HUDResources.armorIconIndex].Size.Height;
-            Matrix3x2 armorTransformMatrix = Matrix3x2.Translation(new Vector2(_directX2DGraphics.RenderTargetClientRectangle.Right - armorWidthInDIP - 1, 1));
+            float armorWidthInDIP = _directX2DGraphics.Bitmaps[_HUDResources.heartIconIndex].Size.Width;
+            float armorHeightInDIP = _directX2DGraphics.Bitmaps[_HUDResources.heartIconIndex].Size.Height;
+            //Matrix3x2 armorTransformMatrix = Matrix3x2.Translation(new Vector2(_directX2DGraphics.RenderTargetClientRectangle.Right - armorWidthInDIP - 1, 1));
             _directX2DGraphics.BeginDraw();
             _directX2DGraphics.DrawText(text, _HUDResources.textFPSTextFormatIndex,
                 _directX2DGraphics.RenderTargetClientRectangle, _HUDResources.textFPSBrushIndex);
-            _directX2DGraphics.DrawBitmap(_HUDResources.armorIconIndex, armorTransformMatrix, 1.0f, SharpDX.Direct2D1.BitmapInterpolationMode.Linear);
+            //_directX2DGraphics.DrawBitmap(_HUDResources.heartIconIndex, armorTransformMatrix, 1.0f, SharpDX.Direct2D1.BitmapInterpolationMode.Linear);
+            //armorTransformMatrix = Matrix3x2.Translation(new Vector2(_directX2DGraphics.RenderTargetClientRectangle.Right - 2* armorWidthInDIP - 1, 1));
+            //_directX2DGraphics.DrawBitmap(_HUDResources.heartIconIndex, armorTransformMatrix, 1.0f, SharpDX.Direct2D1.BitmapInterpolationMode.Linear);
+            DrawIcon(0, mainCharacterService.Character.Health, _HUDResources.heartIconIndex);
+            int arrows = ((Archer)mainCharacterService.Character).ArrowAmount;
+            int maxCount = 10;
+            int layers = arrows < maxCount ? 1 : (arrows / maxCount) + 1;
+            for (int i = 0; i < layers; i++)
+            {
+                int count = (arrows - i * maxCount) < maxCount ? (arrows - i * maxCount) : maxCount;
+                DrawIcon(armorHeightInDIP + i * _directX2DGraphics.Bitmaps[_HUDResources.arrowIconIndex].Size.Height, count, _HUDResources.arrowIconIndex);
+            }
             _directX2DGraphics.EndDraw();
         }
+
+        private void DrawIcon(float prevHeight, int count, int bmpIndex)
+        {
+            if (count > 8)
+                prevHeight = prevHeight * (count / 8);
+            float armorWidthInDIP = _directX2DGraphics.Bitmaps[bmpIndex].Size.Width;
+            for (int i = 1; i <= count; i++)
+            {
+                Matrix3x2 armorTransformMatrix = Matrix3x2.Translation(new Vector2(_directX2DGraphics.RenderTargetClientRectangle.Right - i * armorWidthInDIP - 1, 1 + prevHeight));
+                _directX2DGraphics.DrawBitmap(bmpIndex, armorTransformMatrix, 1.0f, SharpDX.Direct2D1.BitmapInterpolationMode.Linear);
+            }
+        }
+
         private void UpdateKeyBoard()
         {
             _inputController.UpdateKeyboardState();
@@ -288,7 +319,7 @@ namespace Template
             if (_inputController.Func[3]) _directX3DGraphics.IsFullScreen = false;
             if (_inputController.Func[4]) _directX3DGraphics.IsFullScreen = true;
             //mainCharacterService.Update();
-            mapService.Update();
+            levelService.Update();
             cameraService.Update();
         }
 
@@ -306,6 +337,8 @@ namespace Template
             _renderer.Dispose();
             _directX3DGraphics.Dispose();
             _renderForm.Dispose();
+            mainCharacterService.Dispose();
+            levelService.Dispose();
         }
     }
 }
