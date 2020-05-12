@@ -23,5 +23,11 @@ namespace Template.Game.gameObjects.newObjects
             ArrowAmount = (ArrowAmount - 1 < 0) ? 0 : ArrowAmount - 1;
             return ArrowAmount != 0;
         }
+
+        internal override void SetDefault()
+        {
+            base.SetDefault();
+            ArrowAmount = ARROW_AMOUNT;
+        }
     }
 }

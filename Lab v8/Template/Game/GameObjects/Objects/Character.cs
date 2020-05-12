@@ -13,7 +13,7 @@ namespace Template.Game.gameObjects.interfaces
     {
         protected static readonly int MOVEMENT_ABILITY = 1;
         protected static readonly int TURN_COUNT = 1;
-        protected static readonly int HEALTH = 6;
+        public static readonly int HEALTH = 6;
         //protected static readonly int DAMAGE = 1;
         public float Offset { get; set; }
         public bool IsActive { get; set; }
@@ -44,9 +44,9 @@ namespace Template.Game.gameObjects.interfaces
             Position = GetNewPosition(offset);
         }
 
-        internal void SetDefault()
+        internal virtual void SetDefault()
         {
-            TurnCount = TURN_COUNT;         
+            TurnCount = TURN_COUNT;    
         }
 
         public virtual Vector4 GetNewPosition()

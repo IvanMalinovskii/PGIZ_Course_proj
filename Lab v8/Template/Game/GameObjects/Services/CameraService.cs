@@ -42,8 +42,8 @@ namespace Template.Game.Services
             };
             MoveSpeed = 0.3f;
             LookSpeed = 0.01f;
-            camera.Pitch = -0.73f;
-            camera.Yaw = -PositionalObject.HALF_PI;
+            camera.Pitch = -0.65f;
+            camera.Yaw = -0.77f;
         }
         public Matrix GetViewMatrix()
         {
@@ -68,7 +68,11 @@ namespace Template.Game.Services
             if (controller[inputs["move_back"]]) camera.MoveForwardBy(-MoveSpeed);
             if (controller[inputs["move_forward"]]) camera.MoveForwardBy(MoveSpeed);
             if (controller[inputs["move_down"]]) camera.MoveUpBy(-MoveSpeed);
-            if (controller[inputs["move_up"]]) camera.MoveUpBy(MoveSpeed);
+            if (controller[inputs["move_up"]])
+            {
+                camera.MoveUpBy(MoveSpeed);
+                Console.WriteLine($"X: {camera.Position.X}\n Y: {camera.Position.Y}\n Z: {camera.Position.Z}");
+            }
 
         }
 

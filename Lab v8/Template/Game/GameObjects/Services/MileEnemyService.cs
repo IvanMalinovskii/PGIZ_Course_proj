@@ -54,7 +54,7 @@ namespace Template.Game.GameObjects.Services
             enemy = new MileEnemy(Vector4.Zero);
             enemy.AddMeshObjects(loader.LoadMeshesFromObject(meshFile, stub));
             turns = enemy.TurnCount;
-            enemyAnimationService = new AnimationService(enemy, new Sound.SharpAudioDevice());
+            enemyAnimationService = new AnimationService(enemy, device);
             enemy.IsActive = true;
         }
 
@@ -180,7 +180,8 @@ namespace Template.Game.GameObjects.Services
         public void Dispose()
         {
             for (int i = 0; i < voices.Values.Count; i++)
-                voices.ElementAt(i).Value.Dispose();
+                voices.Values.ElementAt(i).Dispose();
+            enemy.MeshObjects.Dispose();
         }
     }
 }

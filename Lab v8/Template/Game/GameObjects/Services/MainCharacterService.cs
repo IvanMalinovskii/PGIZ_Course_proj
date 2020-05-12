@@ -3,8 +3,6 @@ using SharpDX.DirectInput;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Template.Game.gameObjects.interfaces;
 using Template.Game.gameObjects.newObjects;
 using Template.Game.GameObjects.Objects;
@@ -20,7 +18,6 @@ namespace Template.Game.gameObjects.newServices
         private AnimationService archerAnimationService;
         private AnimationService ArrowAnimationService;
         private bool isAnimation;
-        private TimeHelper timeHelper;
         private Archer archer;
         private MeshObject pointer;
         private Arrow arrow;
@@ -38,13 +35,12 @@ namespace Template.Game.gameObjects.newServices
                 arrow.Offset = map.CellSize;
             } }
 
-        public MainCharacterService(string configFile, InputController controller, Loader loader, Material stub, TimeHelper timeHelper, SharpAudioDevice device)
+        public MainCharacterService(string configFile, InputController controller, Loader loader, Material stub, SharpAudioDevice device)
         {
             voices = new Dictionary<string, SharpAudioVoice>();
             SetVoices(device);
             animationQueue = new Queue<string>();
             isAnimation = false;
-            this.timeHelper = timeHelper;
             optionalPointerColor = stub;
             archer = new Archer(new Vector4(0.0f, 0.0f, 0.0f, 0.0f));
             archer.IsActive = true;
@@ -56,8 +52,8 @@ namespace Template.Game.gameObjects.newServices
             originalPointerColor = pointer.Material;
             archer.AddMeshObject(pointer);
             this.controller = controller;
-            archerAnimationService = new AnimationService(archer, new Sound.SharpAudioDevice());
-            ArrowAnimationService = new AnimationService(arrow, new Sound.SharpAudioDevice());
+            archerAnimationService = new AnimationService(archer, device);
+            ArrowAnimationService = new AnimationService(arrow, device);
             turns = archer.TurnCount;
         }
 
@@ -211,8 +207,6 @@ namespace Template.Game.gameObjects.newServices
                 arrow.Position = arrow.GetNewPosition();
                 if (!Map[arrow.Position].HasValue || (Map[arrow.Position].Value.Unit != Unit.Empty && Map[arrow.Position].Value.Unit != Unit.Item))
                     break;
-                //if (Map[arrow.Position].Value.Unit == Unit.Enemy)
-                //    break;
             }
             Vector4 targetPosition = arrow.Position;
             animationQueue.Enqueue("archer_rotation");
@@ -260,7 +254,9 @@ namespace Template.Game.gameObjects.newServices
         public void Dispose()
         {
             for (int i = 0; i < voices.Values.Count; i++)
-                voices.ElementAt(i).Value.Dispose();
+                voices.Values.ElementAt(i).Dispose();
+            archer.MeshObjects.Dispose();
+            arrow.MeshObjects.Dispose();
         }
     }
 }

@@ -1,0 +1,329 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Template.Game.Animation" Collapsed="true">
+    <Position X="8.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAQAAAAEAQAAAAAACAAAIAAAAAAAAA=</HashCode>
+      <FileName>Game\Animations\Animation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Template.Game.Animations.AnimationEventArgs" Collapsed="true">
+    <Position X="34.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Game\Animations\AnimationEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Template.Game.Animations.RotationAnimation" Collapsed="true">
+    <Position X="7" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAIAAAAgCAAAAQAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Game\Animations\RotationAnimation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Template.Game.Animations.SlideAnimation" Collapsed="true">
+    <Position X="9.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Game\Animations\SlideAnimation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Template.Game.gameObjects.newObjects.Archer" Collapsed="true">
+    <Position X="17.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABgIAAAAAAAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Game\GameObjects\Objects\Archer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Template.Game.gameObjects.newObjects.DrawableObject" Collapsed="true">
+    <Position X="18.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAEgCAAAAAAAQAAAAAAIABABCAAAAAA=</HashCode>
+      <FileName>Game\GameObjects\Objects\DrawableObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Template.Game.gameObjects.newObjects.Map" Collapsed="true">
+    <Position X="23.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAgBAACAIAAAAAAEAAgAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Game\GameObjects\Objects\Map.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Template.Game.gameObjects.newObjects.StaticObject" Collapsed="true">
+    <Position X="14.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAgAAAAAAAAAAAAAAAAQAAAAEAAAAIAAAAA=</HashCode>
+      <FileName>Game\GameObjects\Objects\StaticObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Template.Game.GameObjects.Objects.Arrow" Collapsed="true">
+    <Position X="14.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Game\GameObjects\Objects\Arrow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Template.Game.GameObjects.Objects.MileEnemy" Collapsed="true">
+    <Position X="16.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAACAAAAgAgAAAAASAAAAAQAA=</HashCode>
+      <FileName>Game\GameObjects\Objects\MileEnemy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Template.Game.GameObjects.Objects.PickUp" Collapsed="true">
+    <Position X="21" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAABAAAAAABEAAAAAACAAAAAJAAAAAABAABAAAAAI=</HashCode>
+      <FileName>Game\GameObjects\Objects\PickUps\PickUp.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Template.Camera" Collapsed="true">
+    <Position X="25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAQACAEEAIBIAAAAAACAAABgAAACAgAAAgCA=</HashCode>
+      <FileName>Game\GameObjects\Objects\Camera.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Template.MeshObject" Collapsed="true">
+    <Position X="20.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AFAAICABACAAUAAgAAACCAQBFACIAAAACBkgEBAAAAA=</HashCode>
+      <FileName>Game\GameObjects\Objects\MeshObject.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Template.PositionalObject" Collapsed="true">
+    <Position X="19.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAEgAEAAAAAEgACAAIAAAIAAIggIAAABAAACACAE=</HashCode>
+      <FileName>Game\GameObjects\Objects\PositionalObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Template.GameProcess" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="30" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAIAGAGEAAAAIgAAgAQkAICCAeEAYACAABggAo=</HashCode>
+      <FileName>Game\GameProcess.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Template.InputController" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="36.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABACBBUCAAACQAjBFGGAEAASsAAFUEEACBIuIEFDU=</HashCode>
+      <FileName>Game\InputController.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Template.Loader" Collapsed="true">
+    <Position X="34.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAUAGgAAGABBAAAAAAAAAEBEEIQAACgAUAIAQBIEAA=</HashCode>
+      <FileName>Game\Loader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Template.TimeHelper" Collapsed="true">
+    <Position X="40" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAwAAAAAEAAgBAAAAAAAAAAQAAAABAAAAAEAAAAAMQA=</HashCode>
+      <FileName>Game\TimeHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Template.DirectX2DGraphics" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="38.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gEAQCAAAgCAAAwwMoAAhQEEBAJAIgACCIAQCAAEAAIg=</HashCode>
+      <FileName>Graphics\DirectX2DGraphics.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Template.DirectX3DGraphics" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="40" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACCQAAEEACAAAwwAAAAAEAACUIAGgIAAAgCCCAEBAKA=</HashCode>
+      <FileName>Graphics\DirectX3DGraphics.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Template.Renderer" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="38.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAgACDAEAAAQgEIAgQABAAgCAEAAAAAIAAAAAAE=</HashCode>
+      <FileName>Graphics\Renderer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Template.Game.gameObjects.interfaces.Character" Collapsed="true">
+    <Position X="16.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAASECAAAgAAgAAECAIAAABAAAAAAQAIAAAACAAwAA=</HashCode>
+      <FileName>Game\GameObjects\Objects\Character.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Template.Graphics.MeshObjects" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="34.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAJAAAAAASAAABAACAAAAAQAAAAAAAAEAAAAAAAEAAA=</HashCode>
+      <FileName>Game\GameObjects\Objects\MeshObjects.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Template.Graphics.Illumination" Collapsed="true">
+    <Position X="36.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAGAABAAgAAAAAAIAgAAAABAAAAAA=</HashCode>
+      <FileName>Graphics\Illumination.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Template.Graphics.LightSource" Collapsed="true">
+    <Position X="38.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAIAgACAgAAAAACAAAAAEgAEAgCAQAAA=</HashCode>
+      <FileName>Graphics\LightSource.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Template.Graphics.Material" Collapsed="true">
+    <Position X="36.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAIAAAAQgQAAAAAgAgAAQAAAAAACAEAAMAAEQAAAA=</HashCode>
+      <FileName>Graphics\Material.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Template.Graphics.Materials" Collapsed="true">
+    <Position X="40" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAACAABAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Graphics\Materials.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Template.Graphics.SamplerStates" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="40" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAASAAAAAAAAAAAAAQAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Graphics\SamplerStates.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Template.Graphics.Texture" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="37.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAABCCIAABAAAAgAkQAABAAEAAAAAEAAIEAAAA=</HashCode>
+      <FileName>Graphics\Texture.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Template.Graphics.Textures" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="38.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAASAAAAAACAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Graphics\Textures.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Template.Game.GameObjects.Objects.PickUps.MoreArmorItem" Collapsed="true">
+    <Position X="19.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Game\GameObjects\Objects\PickUps\MoreArmorItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Template.Game.GameObjects.Objects.PickUps.MoreArrowsItem" Collapsed="true">
+    <Position X="21" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Game\GameObjects\Objects\PickUps\MoreArrowsItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Template.Game.GameObjects.Objects.PickUps.MovementAbilityItem" Collapsed="true">
+    <Position X="22.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Game\GameObjects\Objects\PickUps\MovementAbilityItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Template.Game.gameObjects.newServices.AnimationService" Collapsed="true">
+    <Position X="27.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAICAAACAEAAAAAAAAAgAQgAIAAAAAQAAAAAAABAAA=</HashCode>
+      <FileName>Game\GameObjects\Services\AnimationService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Template.Game.gameObjects.newServices.MainCharacterService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="28.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQAGCAAALACBAEEEgAAAASAAAAIIAAAABAhAIBMCAU=</HashCode>
+      <FileName>Game\GameObjects\Services\MainCharacterService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Template.Game.gameObjects.newServices.MapService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="30.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEAAABCkAAEsEgAAAAIEEQACEAAEAABAAIISgAUA=</HashCode>
+      <FileName>Game\GameObjects\Services\MapService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Template.Game.Services.CameraService" Collapsed="true">
+    <Position X="29" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAgAAABEACAAAAAAAACAAABAQAAAIAAAAAAA=</HashCode>
+      <FileName>Game\GameObjects\Services\CameraService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Template.Game.GameObjects.Services.LevelService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="25.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAACCCACAAAAEBAQAAAIAAgAAAAAABABAAAAAAAAA=</HashCode>
+      <FileName>Game\GameObjects\Services\LevelService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Template.Game.GameObjects.Services.MileEnemyService" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="26.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAGACAADAAAAEEIAAAAAAAAIAMIAAAABAgAIBACAI=</HashCode>
+      <FileName>Game\GameObjects\Services\MileEnemyService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Template.Sound.SharpAudioDevice" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="36.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACCAAgCAAAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Sound\SharpAudioDevice.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Template.Sound.SharpAudioVoice" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="34.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAggQCIAAAAAAAAAAAAAAAAAAAAEoAAAAAgAABg=</HashCode>
+      <FileName>Sound\SharpAudioVoice.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="Template.Game.gameObjects.newServices.ICharacterService" Collapsed="true">
+    <Position X="28.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAABAAAAAAAAAAAAAAAAAAAAAAABAAAIAACAA=</HashCode>
+      <FileName>Game\GameObjects\Services\ICharacterService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Template.Game.gameObjects.newObjects.Unit" Collapsed="true">
+    <Position X="33" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABiAAAAAAAAAAAAIAAAAEAAAAAAAEAAAAAAEAAAA=</HashCode>
+      <FileName>Game\GameObjects\Objects\Unit.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="Template.Sound.SoundStop" Collapsed="true">
+    <Position X="33" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Sound\SharpAudioVoice.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

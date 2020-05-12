@@ -2,10 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Template.Game.gameObjects.interfaces;
 using Template.Game.gameObjects.newObjects;
 using Template.Game.GameObjects.Objects;
@@ -25,13 +22,14 @@ namespace Template.Game.gameObjects.newServices
         public Character Scene { get; set; }
         public bool OnTheDoor { get; set; }
         private Map map;
+        List<MeshObject> doorMeshes;
         private ICharacterService characterService;
         private List<PickUp> pickUps;
         private List<StaticObject> staticObjects;
         private List<ICharacterService> services;
         private InputController controller;
         private Queue<ICharacterService> servicesQueue;
-        private AnimationService sceneAnimation;
+
         public MapService(ICharacterService characterService, string configFile, Loader loader, Material stub, InputController controller, SharpAudioDevice device)
         {
             OnTheDoor = false;
@@ -52,22 +50,6 @@ namespace Template.Game.gameObjects.newServices
             //sceneAnimation = new AnimationService(Scene, device);
             servicesQueue = new Queue<ICharacterService>();
             UpdateQueue();
-        }
-
-        public void SetAnimation(AnimationHandler handler, List<object> parameters)
-        {
-            sceneAnimation.SetUpParameters("slide", handler, parameters);
-            //IsAnimation = true;
-        }
-
-        private void SetScene()
-        {
-            Scene = new Character(Vector4.Zero);
-            Scene.MeshObjects.AddRange(map.MeshObjects.ToList());
-            Scene.MeshObjects.AddRange(characterService.Character.MeshObjects.ToList());
-            services.ForEach(s => Scene.MeshObjects.AddRange(s.Character.MeshObjects.ToList()));
-            pickUps.ForEach(p => Scene.MeshObjects.AddRange(p.MeshObjects.ToList()));
-            staticObjects.ForEach(st => Scene.MeshObjects.AddRange(st.MeshObjects.ToList()));
         }
 
         private void SetEnemies(List<string> descriptors, Loader loader, Material stub, SharpAudioDevice device)
@@ -94,13 +76,12 @@ namespace Template.Game.gameObjects.newServices
         {
             if (characterService.Character.Position == doorPos)
                 OnTheDoor = true;
-            if (IsAnimation)
-            {
-                sceneAnimation.Animate("scene");
-                return;
-            }
+
             if (services.Count == 0)
+            {
                 map.IsClear = true;
+                doorMeshes.ForEach(m => m.IsVisible = true);
+            }
             ICharacterService service = servicesQueue.Peek();
             if (!service.Character.IsActive || !service.Character.IsAlive)
             {
@@ -202,8 +183,8 @@ namespace Template.Game.gameObjects.newServices
                 Unit = Unit.Door,
                 UnitObject = null
             };
-            List<MeshObject> doorMeshes = loader.LoadMeshesFromObject(fileName, stub);
-            doorMeshes.ForEach(mesh => mesh.Position = doorPos);
+            doorMeshes = loader.LoadMeshesFromObject(fileName, stub);
+            doorMeshes.ForEach(mesh => { mesh.Position = doorPos; mesh.IsVisible = false; });
             map.MeshObjects.AddRange(doorMeshes);
         }
 
@@ -286,6 +267,8 @@ namespace Template.Game.gameObjects.newServices
         public void Dispose()
         {
             services.ForEach(s => s.Dispose());
+            map.MeshObjects.Dispose();
+            pickUps.ForEach(p => p.MeshObjects.Dispose());
         }
 
 

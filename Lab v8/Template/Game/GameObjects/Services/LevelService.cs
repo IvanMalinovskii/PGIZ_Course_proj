@@ -2,9 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using Template.Game.gameObjects.interfaces;
 using Template.Game.gameObjects.newServices;
 using Template.Graphics;
 using Template.Sound;
@@ -20,6 +18,8 @@ namespace Template.Game.GameObjects.Services
         private InputController controller;
         private SharpAudioDevice device;
         private Queue<string> configFiles;
+        public bool IsDone { get; private set; }
+        public int Level { get; private set; }
         public LevelService(Queue<string> configFiles, ICharacterService characterService, Loader loader, Material stub, InputController controller, SharpAudioDevice device)
         {
             this.configFiles = configFiles;
@@ -29,49 +29,45 @@ namespace Template.Game.GameObjects.Services
             this.controller = controller;
             this.device = device;
             mapServices = new LinkedList<MapService>();
-            mapServices.AddLast(new MapService(characterService, configFiles.Dequeue(), loader, stub, controller, device));
+            mapServices.AddLast(new MapService(characterService, configFiles.Peek(), loader, stub, controller, device));
         }
 
         public void Update()
         {
-            if (mapServices.Count != 0)
+            if (mapServices.Count != 0 && !IsDone)
             {
                 MapService service = mapServices.First();
                 if (service.OnTheDoor)
                 {
                     service.OnTheDoor = false;
-                    MapService secondService = new MapService(characterService, configFiles.Dequeue(), loader, stub, controller, device);
-                    //secondService.Scene.Position = new Vector4(0, 0, 100, 0);
+                    configFiles.Dequeue();
+                    if (configFiles.Count == 0)
+                    {
+                        IsDone = true;
+                        return;
+                    }
+                    MapService secondService = new MapService(characterService, configFiles.Peek(), loader, stub, controller, device);
                     mapServices.AddLast(secondService);
 
                     mapServices.RemoveFirst();
                     service.Dispose();
-
-                    //service.SetAnimation((s, a) =>
-                    //{
-                    //    service.IsAnimation = false;
-                    //    mapServices.RemoveFirst();
-                    //    service.Dispose();
-                    //}, new List<object> { new Vector4(0, 0, -100, 0), new Vector4(0, 0, 1, 0)});
-
-                    //secondService.SetAnimation((s, a) =>
-                    //{
-                    //    secondService.IsAnimation = false;
-                    //}, new List<object> { Vector4.Zero, new Vector4(0, 0, -1, 0) });
-
-                    //service.IsAnimation = true;
-                    //secondService.IsAnimation = true;
+                    Level++;
                 }
-                foreach (var mapService in mapServices)
-                    mapService.Update();
+                if (characterService.Character.IsAlive)
+                    mapServices.First().Update();
+                else if (!characterService.Character.IsAlive && controller[SharpDX.DirectInput.Key.R])
+                {
+                    characterService.Character.IsAlive = true;
+                    characterService.Character.SetDefault();
+                    characterService.Character.Health = Character.HEALTH;
+                    mapServices.RemoveFirst();
+                    mapServices.AddLast(new MapService(characterService, configFiles.Peek(), loader, stub, controller, device));
+                }
             }
         }
 
         public void Render(Matrix view, Matrix projection)
         {
-            //if (mapServices.Count != 0)
-            //    mapServices.First().Render(view, projection);
-            //else if (mapServices.Count == 2)
                 foreach (var mapService in mapServices)
                     mapService.Render(view, projection);
         }

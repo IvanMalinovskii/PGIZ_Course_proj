@@ -1,0 +1,11 @@
+private void DrawIcon(float prevHeight, int count, int bmpIndex)
+        {
+            if (count > 8)
+                prevHeight = prevHeight * (count / 8);
+            float armorWidthInDIP = _directX2DGraphics.Bitmaps[bmpIndex].Size.Width;
+            for (int i = 1; i <= count; i++)
+            {
+                Matrix3x2 armorTransformMatrix = Matrix3x2.Translation(new Vector2(_directX2DGraphics.RenderTargetClientRectangle.Right - i * armorWidthInDIP - 1, 1 + prevHeight));
+                _directX2DGraphics.DrawBitmap(bmpIndex, armorTransformMatrix, 1.0f, SharpDX.Direct2D1.BitmapInterpolationMode.Linear);
+            }
+        }

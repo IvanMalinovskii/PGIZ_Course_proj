@@ -151,7 +151,8 @@ namespace Template
                 {Key.Y, false },
                 {Key.I, false },
                 {Key.G, false },
-                {Key.F, false }
+                {Key.F, false },
+                {Key.R, false }
             };
             _directInput = new DirectInput();
 

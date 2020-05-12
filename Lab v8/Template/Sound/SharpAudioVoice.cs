@@ -113,6 +113,7 @@ namespace Template.Sound
         /// </summary>
         public void Dispose()
         {
+            Stop();
             _voice.DestroyVoice();
             _voice.Dispose();
             _stream.Dispose();
