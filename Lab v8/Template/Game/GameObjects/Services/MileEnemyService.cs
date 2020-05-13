@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Template.Game.gameObjects.interfaces;
 using Template.Game.gameObjects.newObjects;
 using Template.Game.gameObjects.newServices;

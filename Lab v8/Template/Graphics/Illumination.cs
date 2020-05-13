@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using SharpDX;
-using SharpDX.Direct3D11;
-using Buffer11 = SharpDX.Direct3D11.Buffer;
 
 namespace Template.Graphics
 {

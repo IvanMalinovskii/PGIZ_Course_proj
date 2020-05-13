@@ -570,3 +570,4 @@ D:\study\3_course_2_sem\ПГИЗ\course_proj\PGIZ_Course_proj\Lab v8\Template\ob
 D:\study\3_course_2_sem\ПГИЗ\course_proj\PGIZ_Course_proj\Lab v8\Template\bin\x64\Debug\Resources\map.bmp
 D:\study\3_course_2_sem\ПГИЗ\course_proj\PGIZ_Course_proj\Lab v8\Template\bin\x64\Debug\Resources\wall.txt
 D:\study\3_course_2_sem\ПГИЗ\course_proj\PGIZ_Course_proj\Lab v8\Template\bin\x64\Debug\CjClutter.ObjLoader.Loader.dll
+D:\study\3_course_2_sem\ПГИЗ\course_proj\PGIZ_Course_proj\Lab v8\Template\obj\x64\Debug\Template.csproj.CoreCompileInputs.cache

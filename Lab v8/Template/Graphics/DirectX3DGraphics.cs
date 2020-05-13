@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SharpDX;
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;
 using SharpDX.Windows;
 using Device11 = SharpDX.Direct3D11.Device;
-using Buffer11 = SharpDX.Direct3D11.Buffer;
 using SharpDX.Direct3D;
 
 namespace Template

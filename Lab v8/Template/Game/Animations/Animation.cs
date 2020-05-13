@@ -1,9 +1,4 @@
-﻿using SharpDX;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Template.Game.Animations;
 using Template.Game.gameObjects.newObjects;
 
@@ -21,16 +16,6 @@ namespace Template.Game
             TargetObject = targetObject;
             Parameters = new Dictionary<string, object>();
         }
-
-        //public void SlideAnimation(DrawableObject targetObject)
-        //{
-        //    if (targetObject.Position == TargetPosition)
-        //    {
-        //        AnimationEnded.Invoke(this, new AnimationEventArgs(targetObject, "slide"));
-        //        return;
-        //    }
-        //    targetObject.Position += Offset;
-        //}
 
         public abstract void Animate();
 

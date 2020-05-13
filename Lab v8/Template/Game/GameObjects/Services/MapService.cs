@@ -10,7 +10,6 @@ using Template.Game.GameObjects.Objects.PickUps;
 using Template.Game.GameObjects.Services;
 using Template.Graphics;
 using Template.Sound;
-using static Template.Game.Animation;
 using static Template.Game.gameObjects.newObjects.Map;
 
 namespace Template.Game.gameObjects.newServices

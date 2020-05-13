@@ -99,7 +99,7 @@ namespace Template
             mainCharacterService = new MainCharacterService("some", inputController, loader, materials[3], audioDevice);
             Queue<string> files = new Queue<string>();
             files.Enqueue("Resources\\Description\\map1.txt");
-            //files.Enqueue("Resources\\Description\\map1.txt");
+            files.Enqueue("Resources\\Description\\map1.txt");
             levelService = new LevelService(files, mainCharacterService, loader, materials[2], inputController, audioDevice);
 
             cameraService = new CameraService(new Camera(new Vector4(-119.0f, 144.0f, 129.0f, 1.0f)), inputController);

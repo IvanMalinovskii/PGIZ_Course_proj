@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SharpDX;
 using SharpDX.DirectInput;
 
@@ -72,29 +69,12 @@ namespace Template
         {
             return Matrix.OrthoLH(width / Scale, height / Scale, 0, 1000);
             //return Matrix.PerspectiveFovLH(FOVY, _aspect, 0.1f, 1000.0f);
-            //return Matrix.OrthoOffCenterLH(-15, 15, -15, 15, 0.1f, 100);
         }
 
         /// <summary>Get view matrix.</summary>
         /// <returns>View matrix.</returns>
         public Matrix GetViewMatrix()
         {
-            //if (_objectToAttached != null)
-            //{
-            //    _position = _objectToAttached.Position;
-            //    _position.Y += 15;
-            //    _position.X -= 25;
-            //}
-            //Vector3 viewUp = new Vector3(1, 0, 0);
-            //Vector3 target = (Vector3)_position;
-            //target.Y -= 1;
-            //target.X += 1.5f;
-            //description.pos = (Vector3)_position;
-            //description.target = target;
-            //description.up = viewUp;
-
-            //return Matrix.LookAtLH((Vector3)_position, target, viewUp);
-
             if (_objectToAttached != null)
             {
                 position = _objectToAttached.Position;

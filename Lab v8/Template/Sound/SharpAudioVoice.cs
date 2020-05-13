@@ -1,12 +1,8 @@
 ﻿using SharpDX.Multimedia;
 using SharpDX.XAudio2;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Template.Sound
 {
@@ -31,11 +27,6 @@ namespace Template.Sound
         {
             get { return _voice; }
         }
-
-        /// <summary>
-        /// Raise event when stopped
-        /// </summary>
-        public event SoundStop Stopped;
 
         /// <summary>
         /// Constructor
@@ -87,7 +78,7 @@ namespace Template.Sound
                 _voice.Stop();
                 _voice.FlushSourceBuffers();
                 isPlaying = false;
-                Stopped.Invoke(this);
+                //Stopped.Invoke(this);
             }
             catch
             {

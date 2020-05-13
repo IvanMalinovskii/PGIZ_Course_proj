@@ -162,7 +162,6 @@
     <Compile Include="Game\GameObjects\Objects\Camera.cs" />
     <Compile Include="Game\GameObjects\Objects\Character.cs" />
     <Compile Include="Game\GameObjects\Objects\MileEnemy.cs" />
-    <Compile Include="Game\GameObjects\Objects\MovingObject.cs" />
     <Compile Include="Game\GameObjects\Objects\Archer.cs" />
     <Compile Include="Game\GameObjects\Objects\DrawableObject.cs" />
     <Compile Include="Game\GameObjects\Objects\Map.cs" />

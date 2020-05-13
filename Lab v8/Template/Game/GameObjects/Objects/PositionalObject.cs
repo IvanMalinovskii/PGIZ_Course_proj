@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SharpDX;
 
 namespace Template
@@ -21,13 +17,6 @@ namespace Template
         public PositionalObject(Vector4 initialPosition)
         {
             position = initialPosition;
-        }
-
-        public virtual void MoveTo(float x, float y, float z)
-        {
-            position.X = x;
-            position.Y = y;
-            position.Z = z;
         }
 
         public Matrix GetWorldMatrix()
@@ -56,17 +45,6 @@ namespace Template
             Roll += deltaRoll;
             if (Roll > PI) Roll -= TWO_PI;
             else if (Roll < -PI) Roll += TWO_PI;
-        }
-
-        public virtual void MoveByDirection(float speed, string direction)
-        {
-            switch (direction)
-            {
-                case "forward": position.X += speed; break;
-                case "back": position.X -= speed; break;
-                case "left": position.Z += speed; break;
-                case "right": position.Z -= speed; break;
-            }
         }
 
         /// <summary>Move forward or backward (depends of moveBy sign: positive - forward). Yaw = 0 - look to -Z.</summary>

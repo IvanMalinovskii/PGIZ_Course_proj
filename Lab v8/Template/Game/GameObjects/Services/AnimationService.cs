@@ -1,9 +1,5 @@
 ﻿using SharpDX;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Template.Game.Animations;
 using Template.Game.gameObjects.interfaces;
 using Template.Game.gameObjects.newObjects;
