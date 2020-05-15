@@ -1,0 +1,9 @@
+map 11 11 15 Resources\FloorTile.obj
+character 10 0
+enemy mile 0 0 Resources\Werewolf.obj
+enemy mile 0 10 Resources\Werewolf.obj
+pick_up turn 5 5 Resources\Moka.obj
+pick_up armor 10 10 Resources\Shield.obj
+static 8 8 Resources\Barrel.obj
+static 8 9 Resources\Barrel.obj
+static 8 10 Resources\Barrel.obj

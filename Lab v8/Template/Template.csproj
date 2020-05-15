@@ -221,14 +221,63 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\Assassin.mtl" />
+    <None Include="Resources\Assassin.obj" />
+    <None Include="Resources\Bag.mtl" />
+    <None Include="Resources\Bag.obj" />
+    <None Include="Resources\Barrel.mtl" />
+    <None Include="Resources\Barrel.obj" />
+    <None Include="Resources\Bolt.mtl" />
+    <None Include="Resources\Bolt.obj" />
+    <None Include="Resources\Bottle.mtl" />
+    <None Include="Resources\Bottle.obj" />
+    <None Include="Resources\box.obj" />
+    <None Include="Resources\FloorObj.obj" />
+    <None Include="Resources\FloorTile.mtl" />
+    <None Include="Resources\FloorTile.obj" />
+    <None Include="Resources\Moka.mtl" />
+    <None Include="Resources\Moka.obj" />
+    <None Include="Resources\Pointer.mtl" />
+    <None Include="Resources\Pointer.obj" />
+    <None Include="Resources\Quiver.mtl" />
+    <None Include="Resources\Quiver.obj" />
+    <None Include="Resources\Shield.mtl" />
+    <None Include="Resources\Shield.obj" />
+    <None Include="Resources\Werewolf.mtl" />
+    <None Include="Resources\Werewolf.obj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\arrow.png" />
+    <Content Include="Resources\arrowDestroy.wav" />
+    <Content Include="Resources\AssassinWhite.png" />
+    <Content Include="Resources\Bag.png" />
+    <Content Include="Resources\Bolt.png" />
+    <Content Include="Resources\boxDestroy.wav" />
+    <Content Include="Resources\characterHit.wav" />
+    <Content Include="Resources\Crossbow.png" />
+    <Content Include="Resources\enemyHit.wav" />
+    <Content Include="Resources\floor.png" />
+    <Content Include="Resources\floor_inner.png" />
+    <Content Include="Resources\floor_outer.png" />
+    <Content Include="Resources\Gray.png" />
+    <Content Include="Resources\heart.png" />
     <Content Include="Resources\materials.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\mileAttack.wav" />
+    <Content Include="Resources\MokaBody.png" />
+    <Content Include="Resources\pickUp.wav" />
+    <Content Include="Resources\Quiver.png" />
+    <Content Include="Resources\select.wav" />
+    <Content Include="Resources\Shield.png" />
+    <Content Include="Resources\shoot.wav" />
+    <Content Include="Resources\slide.wav" />
+    <Content Include="Resources\StandColor.png" />
+    <Content Include="Resources\Werewolf.png" />
+    <Content Include="Resources\WhiteColor.png" />
     <Content Include="Shaders\pixel.hlsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
