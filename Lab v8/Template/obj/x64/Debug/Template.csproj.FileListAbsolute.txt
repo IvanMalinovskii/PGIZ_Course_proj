@@ -507,10 +507,6 @@ D:\Lab v8\Template\obj\x64\Debug\Template.csproj.GenerateResource.cache
 D:\Lab v8\Template\obj\x64\Debug\Template.csproj.CopyComplete
 D:\Lab v8\Template\obj\x64\Debug\Template.exe
 D:\Lab v8\Template\obj\x64\Debug\Template.pdb
-D:\study\3_course_2_sem\ПГИЗ\course_proj\PGIZ_Course_proj\Lab v8\Template\bin\x64\Debug\Resources\armor.bmp
-D:\study\3_course_2_sem\ПГИЗ\course_proj\PGIZ_Course_proj\Lab v8\Template\bin\x64\Debug\Resources\cube.png
-D:\study\3_course_2_sem\ПГИЗ\course_proj\PGIZ_Course_proj\Lab v8\Template\bin\x64\Debug\Resources\cube.txt
-D:\study\3_course_2_sem\ПГИЗ\course_proj\PGIZ_Course_proj\Lab v8\Template\bin\x64\Debug\Resources\floor.txt
 D:\study\3_course_2_sem\ПГИЗ\course_proj\PGIZ_Course_proj\Lab v8\Template\bin\x64\Debug\Resources\materials.txt
 D:\study\3_course_2_sem\ПГИЗ\course_proj\PGIZ_Course_proj\Lab v8\Template\bin\x64\Debug\Shaders\pixel.hlsl
 D:\study\3_course_2_sem\ПГИЗ\course_proj\PGIZ_Course_proj\Lab v8\Template\bin\x64\Debug\Shaders\vertex.hlsl
@@ -567,7 +563,5 @@ D:\study\3_course_2_sem\ПГИЗ\course_proj\PGIZ_Course_proj\Lab v8\Template\ob
 D:\study\3_course_2_sem\ПГИЗ\course_proj\PGIZ_Course_proj\Lab v8\Template\obj\x64\Debug\Template.csproj.CopyComplete
 D:\study\3_course_2_sem\ПГИЗ\course_proj\PGIZ_Course_proj\Lab v8\Template\obj\x64\Debug\Template.exe
 D:\study\3_course_2_sem\ПГИЗ\course_proj\PGIZ_Course_proj\Lab v8\Template\obj\x64\Debug\Template.pdb
-D:\study\3_course_2_sem\ПГИЗ\course_proj\PGIZ_Course_proj\Lab v8\Template\bin\x64\Debug\Resources\map.bmp
-D:\study\3_course_2_sem\ПГИЗ\course_proj\PGIZ_Course_proj\Lab v8\Template\bin\x64\Debug\Resources\wall.txt
 D:\study\3_course_2_sem\ПГИЗ\course_proj\PGIZ_Course_proj\Lab v8\Template\bin\x64\Debug\CjClutter.ObjLoader.Loader.dll
 D:\study\3_course_2_sem\ПГИЗ\course_proj\PGIZ_Course_proj\Lab v8\Template\obj\x64\Debug\Template.csproj.CoreCompileInputs.cache
